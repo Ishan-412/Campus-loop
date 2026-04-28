@@ -1,0 +1,253 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg-primary: #020617;
+  --color-purple: #7C3AED;
+  --color-violet: #8B5CF6;
+  --color-cyan: #06B6D4;
+  --color-blue: #3B82F6;
+  --color-indigo: #6366F1;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background-color: var(--bg-primary);
+  color: #f8fafc;
+  font-family: 'Inter', system-ui, sans-serif;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ─── Noise Overlay ────────────────────────────── */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3Insight filter='url(%23noiseFilter)'/%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3C/svg%3E");
+  opacity: 0.045;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* ─── Scrollbar ─────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, rgba(124,58,237,0.3), rgba(6,182,212,0.3));
+  border-radius: 9999px;
+  border: 1px solid rgba(255,255,255,0.05);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, rgba(124,58,237,0.6), rgba(6,182,212,0.6));
+}
+
+/* ─── Typography ───────────────────────────────── */
+h1, h2, h3, h4, .font-display {
+  font-family: 'Outfit', sans-serif;
+}
+
+/* ─── Glassmorphism ──────────────────────────────── */
+.glass {
+  background: rgba(15, 23, 42, 0.4);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+.glass-strong {
+  background: rgba(15, 23, 42, 0.7);
+  backdrop-filter: blur(32px) saturate(180%);
+  -webkit-backdrop-filter: blur(32px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+}
+
+/* ─── Glow helpers ───────────────────────────────── */
+.glow-purple { box-shadow: 0 0 40px rgba(124,58,237,0.4); }
+.glow-cyan   { box-shadow: 0 0 40px rgba(6,182,212,0.4); }
+.glow-blue   { box-shadow: 0 0 40px rgba(59,130,246,0.4); }
+
+/* ─── Neon glows ─────────────────────────────────── */
+.neon-glow-indigo { box-shadow: 0 0 20px rgba(99, 102, 241, 0.4), 0 0 40px rgba(99, 102, 241, 0.2); }
+.neon-glow-cyan { box-shadow: 0 0 20px rgba(6, 182, 212, 0.4), 0 0 40px rgba(6, 182, 212, 0.2); }
+.neon-glow-purple { box-shadow: 0 0 20px rgba(168, 85, 247, 0.4), 0 0 40px rgba(168, 85, 247, 0.2); }
+
+/* ─── Text gradients ─────────────────────────────── */
+.text-gradient {
+  background: linear-gradient(135deg, #A78BFA 0%, #22D3EE 50%, #60A5FA 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.text-gradient-purple {
+  background: linear-gradient(135deg, #C084FC 0%, #818CF8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.text-gradient-warm {
+  background: linear-gradient(135deg, #F472B6 0%, #A78BFA 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ─── Section spacing ────────────────────────────── */
+.section-padding { padding: 140px 0; }
+@media (max-width: 768px) {
+  .section-padding { padding: 80px 0; }
+}
+
+/* ─── Container ──────────────────────────────────── */
+.container-custom {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+@media (max-width: 768px) { .container-custom { padding: 0 20px; } }
+
+/* ─── Animated gradient background ──────────────── */
+@keyframes gradientShift {
+  0%   { background-position: 0% 50%;   }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%;   }
+}
+.animated-gradient {
+  background: linear-gradient(-45deg, #7C3AED, #06B6D4, #3B82F6, #8B5CF6);
+  background-size: 400% 400%;
+  animation: gradientShift 10s ease infinite;
+}
+
+/* ─── Orb blur blobs ─────────────────────────────── */
+.orb {
+  border-radius: 50%;
+  filter: blur(100px);
+  opacity: 0.15;
+  pointer-events: none;
+  position: absolute;
+}
+
+/* ─── Hover lift ─────────────────────────────────── */
+.hover-lift {
+  transition: all 0.3s ease-in-out;
+  border: 1px solid transparent;
+}
+.hover-lift:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 16px 40px rgba(0,0,0,0.4);
+  border-color: rgba(255,255,255,0.15);
+}
+
+/* ─── Buttons ────────────────────────────────────── */
+@keyframes btnPulse {
+  0%, 100% { box-shadow: 0 0 15px rgba(124,58,237,0.4); }
+  50% { box-shadow: 0 0 30px rgba(124,58,237,0.7); }
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #7C3AED, #06B6D4);
+  color: white;
+  padding: 16px 36px;
+  border-radius: 16px;
+  font-weight: 700;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease-in-out;
+  animation: btnPulse 3s ease-in-out infinite;
+}
+.btn-primary:hover {
+  /* Let framer-motion handle the scale, we handle the glow */
+  box-shadow: 0 0 40px rgba(124,58,237,0.9);
+}
+
+.btn-ghost {
+  background: rgba(255,255,255,0.03);
+  color: #f1f5f9;
+  padding: 16px 36px;
+  border-radius: 16px;
+  font-weight: 600;
+  font-size: 16px;
+  border: 1px solid rgba(255,255,255,0.08);
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  backdrop-filter: blur(12px);
+}
+.btn-ghost:hover {
+  background: rgba(255,255,255,0.06);
+  border-color: rgba(139,92,246,0.6);
+  box-shadow: 0 0 20px rgba(139,92,246,0.3);
+}
+
+/* ─── Progress bars ──────────────────────────────── */
+.progress-bar {
+  height: 8px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #7C3AED, #06B6D4);
+  position: relative;
+  overflow: hidden;
+}
+
+/* ─── Marquee ─────────────────────────────────────── */
+@keyframes marquee {
+  0%   { transform: translateX(0%);   }
+  100% { transform: translateX(-50%); }
+}
+.animate-marquee {
+  animation: marquee 35s linear infinite;
+  will-change: transform;
+}
+
+/* ─── Shimmer ─────────────────────────────────────── */
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+.shimmer {
+  position: relative;
+  overflow: hidden;
+}
+.shimmer::after {
+  content: '';
+  position: absolute;
+  top: 0; right: 0; bottom: 0; left: 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.05),
+    transparent
+  );
+  animation: shimmer 2s infinite;
+}
+
+/* ─── Futuristic scan line ───────────────────────── */
+@keyframes scanLine {
+  0%   { top: -10%; }
+  100% { top: 110%; }
+}
+.scan-line-container { position: relative; overflow: hidden; }
+.scan-line-container::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(139,92,246,0.6), transparent);
+  animation: scanLine 5s linear infinite;
+  pointer-events: none;
+}
+
+/* ─── Masking ────────────────────────────────────── */
+.mask-radial {
+  mask-image: radial-gradient(circle at center, black, transparent 80%);
+}
