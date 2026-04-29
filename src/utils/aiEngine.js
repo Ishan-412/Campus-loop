@@ -14,6 +14,8 @@ export const workloads = [
   'Coding', 'Machine Learning', 'CAD', 'Simulation', 'Rendering', 'Balanced'
 ];
 
+export const deviceTypes = ['Desktop', 'Laptop'];
+
 const parseBudget = (budgetStr) => {
   if (budgetStr === '₹20k–30k') return 30000;
   if (budgetStr === '₹30k–40k') return 40000;
@@ -27,160 +29,241 @@ const parseBudget = (budgetStr) => {
   return 60000; // default
 };
 
-// --- DATASETS ---
+// --- DATASETS (DESKTOP) ---
 
 const cpus = [
-  { name: 'Intel Core i3-12100F', price: 8500, score: 55, type: 'budget' },
-  { name: 'AMD Ryzen 3 4100', price: 6500, score: 50, type: 'budget' },
-  { name: 'Intel Core i5-12400F', price: 13000, score: 70, type: 'mid' },
-  { name: 'AMD Ryzen 5 5600X', price: 14500, score: 75, type: 'mid' },
-  { name: 'Intel Core i5-13400F', price: 18500, score: 82, type: 'mid-high' },
-  { name: 'AMD Ryzen 5 7600X', price: 21000, score: 85, type: 'mid-high' },
-  { name: 'Intel Core i7-13700K', price: 38000, score: 92, type: 'high' },
-  { name: 'AMD Ryzen 7 7800X3D', price: 36000, score: 95, type: 'high' },
-  { name: 'Intel Core i9-13900K', price: 54000, score: 98, type: 'ultra' },
-  { name: 'AMD Ryzen 9 7950X', price: 52000, score: 99, type: 'ultra' },
+  { name: 'Intel Core i3-12100F', price: 8000, score: 55, brand: 'Intel' },
+  { name: 'AMD Ryzen 3 4100', price: 6500, score: 50, brand: 'AMD' },
+  { name: 'Intel Core i5-12400F', price: 12000, score: 70, brand: 'Intel' },
+  { name: 'AMD Ryzen 5 5600', price: 13000, score: 72, brand: 'AMD' },
+  { name: 'Intel Core i5-13400F', price: 18000, score: 82, brand: 'Intel' },
+  { name: 'AMD Ryzen 5 7600X', price: 20000, score: 85, brand: 'AMD' },
+  { name: 'Intel Core i7-13700K', price: 35000, score: 92, brand: 'Intel' },
+  { name: 'AMD Ryzen 7 7800X3D', price: 35000, score: 95, brand: 'AMD' },
 ];
 
 const gpus = [
-  { name: 'Integrated Graphics', price: 0, score: 30, type: 'integrated' },
-  { name: 'NVIDIA GTX 1650 4GB', price: 12000, score: 50, type: 'entry' },
-  { name: 'AMD Radeon RX 6500 XT', price: 13500, score: 52, type: 'entry' },
-  { name: 'NVIDIA RTX 3050 8GB', price: 21000, score: 65, type: 'mid' },
-  { name: 'AMD Radeon RX 6600', price: 22000, score: 68, type: 'mid' },
-  { name: 'NVIDIA RTX 3060 12GB', price: 26000, score: 75, type: 'mid-high' },
-  { name: 'NVIDIA RTX 4060 8GB', price: 30000, score: 80, type: 'mid-high' },
-  { name: 'AMD Radeon RX 6700 XT', price: 33000, score: 82, type: 'mid-high' },
-  { name: 'NVIDIA RTX 4070 12GB', price: 55000, score: 90, type: 'high' },
-  { name: 'AMD Radeon RX 7800 XT', price: 52000, score: 89, type: 'high' },
-  { name: 'NVIDIA RTX 4080 16GB', price: 105000, score: 98, type: 'ultra' },
+  { name: 'Integrated Graphics', price: 0, score: 30, tier: 0 },
+  { name: 'NVIDIA GTX 1650 4GB', price: 11000, score: 50, tier: 1 },
+  { name: 'AMD Radeon RX 6500 XT', price: 12500, score: 52, tier: 1 },
+  { name: 'NVIDIA RTX 3050 8GB', price: 20000, score: 65, tier: 2 },
+  { name: 'AMD Radeon RX 6600', price: 21000, score: 68, tier: 2 },
+  { name: 'NVIDIA RTX 3060 12GB', price: 25000, score: 75, tier: 3 },
+  { name: 'NVIDIA RTX 4060 8GB', price: 28000, score: 80, tier: 3 },
+  { name: 'AMD Radeon RX 6700 XT', price: 32000, score: 82, tier: 3 },
+  { name: 'NVIDIA RTX 4070 12GB', price: 54000, score: 90, tier: 4 },
+  { name: 'AMD Radeon RX 7800 XT', price: 50000, score: 89, tier: 4 },
 ];
 
 const rams = [
-  { name: '8GB DDR4 3200MHz', price: 1800, score: 50, size: 8 },
+  { name: '8GB DDR4 3200MHz', price: 2000, score: 50, size: 8 },
   { name: '16GB DDR4 3200MHz', price: 3500, score: 75, size: 16 },
-  { name: '16GB DDR5 4800MHz', price: 4800, score: 80, size: 16 },
-  { name: '32GB DDR4 3600MHz', price: 7000, score: 85, size: 32 },
-  { name: '32GB DDR5 5200MHz', price: 9500, score: 92, size: 32 },
-  { name: '64GB DDR5 6000MHz', price: 19000, score: 98, size: 64 },
+  { name: '16GB DDR5 4800MHz', price: 4500, score: 80, size: 16 },
+  { name: '32GB DDR4 3600MHz', price: 6500, score: 85, size: 32 },
+  { name: '32GB DDR5 5200MHz', price: 9000, score: 92, size: 32 },
+  { name: '64GB DDR5 6000MHz', price: 18000, score: 98, size: 64 },
 ];
 
 const storages = [
-  { name: '256GB SATA SSD', price: 1500, score: 40 },
-  { name: '512GB NVMe Gen3', price: 3200, score: 65 },
-  { name: '1TB NVMe Gen3', price: 5500, score: 75 },
-  { name: '1TB NVMe Gen4', price: 7500, score: 85 },
-  { name: '2TB NVMe Gen4', price: 12500, score: 95 },
+  { name: '256GB SATA SSD', price: 1500, score: 40, size: 256 },
+  { name: '512GB NVMe Gen3', price: 3000, score: 65, size: 512 },
+  { name: '1TB NVMe Gen3', price: 5000, score: 75, size: 1024 },
+  { name: '1TB NVMe Gen4', price: 7000, score: 85, size: 1024 },
+  { name: '2TB NVMe Gen4', price: 12000, score: 95, size: 2048 },
 ];
 
-// Helper to get random item from array
-const pickRandom = (arr) => arr[Math.floor(Math.random() * arr.length)];
-
-// Filter components by max budget and sort by performance descending
-const getBestComponents = (arr, maxPrice) => {
-  const filtered = arr.filter(c => c.price <= maxPrice);
-  return filtered.sort((a, b) => b.score - a.score);
+// Random Helpers
+const pickRandom = (arr, seed) => {
+  if (arr.length === 0) return null;
+  // A simple pseudo-random hash based on string seed
+  let hash = 0;
+  for (let i = 0; i < seed.length; i++) hash = Math.imul(31, hash) + seed.charCodeAt(i) | 0;
+  const index = Math.abs(hash) % arr.length;
+  return arr[index];
 };
 
-export const generateConfig = (branch, budgetStr, workload) => {
-  const maxTotalBudget = parseBudget(budgetStr);
+const pickTrulyRandom = (arr) => arr[Math.floor(Math.random() * arr.length)];
+
+// Ensure cost fits budget constraints
+const validateBuild = (cpu, gpu, ram, storage, otherCost) => {
+  return cpu.price + gpu.price + ram.price + storage.price + otherCost;
+};
+
+const getDesktopConfig = (branch, budgetStr, workload) => {
+  const maxBudget = parseBudget(budgetStr);
+  const otherCost = 10000; // Case, PSU, Mobo
+
+  // Base Weights: CPU ~30%, GPU ~40%, RAM ~15%, Storage ~15%
+  let cpuB = (maxBudget - otherCost) * 0.30;
+  let gpuB = (maxBudget - otherCost) * 0.40;
+  let ramB = (maxBudget - otherCost) * 0.15;
+  let stoB = (maxBudget - otherCost) * 0.15;
+
+  // Hard constraints
+  let maxGpuTier = 4;
+  let minGpuTier = 0;
+  let maxRamSize = 64;
+  let maxStorageSize = 2048;
+
+  if (maxBudget < 40000) {
+    maxGpuTier = 0; // Integrated only
+  } else if (maxBudget <= 60000) {
+    maxGpuTier = 1; // GTX 1650 class
+    maxRamSize = 16;
+  } else if (maxBudget <= 80000) {
+    maxGpuTier = 3; // RTX 3050/3060
+    maxStorageSize = 1024; // No 2TB
+  } else {
+    minGpuTier = 3; // RTX 3060+
+  }
+
+  // Filter components by constraints
+  const availableGPUs = gpus.filter(g => g.tier >= minGpuTier && g.tier <= maxGpuTier);
+  const availableRAMs = rams.filter(r => r.size <= maxRamSize);
+  const availableStorages = storages.filter(s => s.size <= maxStorageSize);
+
+  // Force Alternating CPUs
+  const budgetIndex = budgets.indexOf(budgetStr);
+  const forcedBrand = budgetIndex % 2 === 0 ? 'Intel' : 'AMD';
+  const availableCPUs = cpus.filter(c => c.brand === forcedBrand);
+
+  // Initial selection
+  const filterByBudget = (arr, b) => arr.filter(x => x.price <= b).sort((a,b) => b.score - a.score);
   
-  // Base weights
-  let weights = { cpu: 0.35, gpu: 0.40, ram: 0.15, storage: 0.10 };
+  let cpuOpts = filterByBudget(availableCPUs, cpuB);
+  let gpuOpts = filterByBudget(availableGPUs, gpuB);
+  let ramOpts = filterByBudget(availableRAMs, ramB);
+  let stoOpts = filterByBudget(availableStorages, stoB);
 
-  // Adjust weights based on workload/branch
-  const wl = workload || 'Balanced';
-  if (wl === 'Coding' || branch === 'Computer Science') {
-    weights = { cpu: 0.45, gpu: 0.15, ram: 0.25, storage: 0.15 };
-  } else if (wl === 'CAD' || branch === 'Mechanical' || branch === 'Civil' || branch === 'Design') {
-    weights = { cpu: 0.30, gpu: 0.45, ram: 0.15, storage: 0.10 };
-  } else if (wl === 'Rendering') {
-    weights = { cpu: 0.20, gpu: 0.55, ram: 0.15, storage: 0.10 };
-  } else if (wl === 'Simulation' || branch === 'Physics') {
-    weights = { cpu: 0.40, gpu: 0.20, ram: 0.30, storage: 0.10 };
-  } else if (wl === 'Machine Learning' || branch === 'Data Science') {
-    weights = { cpu: 0.20, gpu: 0.50, ram: 0.20, storage: 0.10 };
-  }
+  // Fallbacks if budget is too tight
+  if (cpuOpts.length === 0) cpuOpts = [availableCPUs[0]];
+  if (gpuOpts.length === 0) gpuOpts = [availableGPUs[0]];
+  if (ramOpts.length === 0) ramOpts = [availableRAMs[0]];
+  if (stoOpts.length === 0) stoOpts = [availableStorages[0]];
 
-  // Calculate sub-budgets
-  let cpuBudget = maxTotalBudget * weights.cpu;
-  let gpuBudget = maxTotalBudget * weights.gpu;
-  let ramBudget = maxTotalBudget * weights.ram;
-  let storageBudget = maxTotalBudget * weights.storage;
+  // Pick deterministic random top candidates
+  const seed = budgetStr + workload + branch;
+  let cpu = pickRandom(cpuOpts.slice(0, 2), seed + 'c');
+  let gpu = pickRandom(gpuOpts.slice(0, 2), seed + 'g');
+  let ram = pickRandom(ramOpts.slice(0, 2), seed + 'r');
+  let storage = pickRandom(stoOpts.slice(0, 2), seed + 's');
 
-  // Very low budget handling - use integrated graphics to save money for CPU/RAM
-  if (maxTotalBudget <= 30000) {
-    gpuBudget = 0; // Force integrated graphics
-    cpuBudget = maxTotalBudget * 0.50;
-    ramBudget = maxTotalBudget * 0.30;
-    storageBudget = maxTotalBudget * 0.20;
-  }
-
-  // Pick components
-  const validCPUs = getBestComponents(cpus, cpuBudget);
-  const validGPUs = getBestComponents(gpus, gpuBudget);
-  const validRAMs = getBestComponents(rams, ramBudget);
-  const validStorages = getBestComponents(storages, storageBudget);
-
-  // Take top 3 of each category to introduce random variation (if available)
-  const cpu = validCPUs.length > 0 ? pickRandom(validCPUs.slice(0, Math.min(3, validCPUs.length))) : cpus[0];
-  const gpu = validGPUs.length > 0 ? pickRandom(validGPUs.slice(0, Math.min(2, validGPUs.length))) : gpus[0];
-  const ram = validRAMs.length > 0 ? pickRandom(validRAMs.slice(0, Math.min(2, validRAMs.length))) : rams[0];
-  const storage = validStorages.length > 0 ? pickRandom(validStorages.slice(0, Math.min(2, validStorages.length))) : storages[0];
-
-  // Calculate overall score (weighted average)
-  const overallScore = Math.round(
-    (cpu.score * weights.cpu) +
-    (gpu.score * weights.gpu) +
-    (ram.score * weights.ram) +
-    (storage.score * weights.storage)
-  );
-
-  // Grade
-  let grade = 'B';
-  if (overallScore >= 90) grade = 'A+';
-  else if (overallScore >= 80) grade = 'A';
-  else if (overallScore >= 70) grade = 'B+';
-
-  // Dynamic Reason
-  let reason = '';
-  if (wl === 'Coding' || wl === 'Simulation') {
-    reason = `The ${cpu.name} provides excellent multi-core performance for compiling and simulating. Combined with ${ram.name}, it ensures a smooth bottleneck-free experience within your ${budgetStr} budget.`;
-  } else if (wl === 'CAD' || wl === 'Rendering') {
-    reason = `For visual workflows, GPU horsepower is critical. We've prioritized the ${gpu.name} to handle complex models and renders effortlessly, while keeping the CPU capable.`;
-  } else if (wl === 'Machine Learning') {
-    reason = `AI tasks demand VRAM and compute. The ${gpu.name} paired with ${ram.name} gives you the perfect tensor execution sandbox for student-level models.`;
-  } else {
-    reason = `This is an expertly balanced configuration. The ${cpu.name} and ${gpu.name} combo guarantees smooth performance across all general campus workloads.`;
-  }
-
-  if (gpu.name === 'Integrated Graphics') {
-    reason = `At this budget tier, we prioritized a strong CPU (${cpu.name}) and sufficient RAM. Relying on integrated graphics keeps costs down without sacrificing overall system snapiness.`;
-  }
-
-  // Dynamic Upgrade Path
-  const upgradePath = [];
-  if (ram.size <= 16) {
-    upgradePath.push(`Year 2: Upgrade RAM to ${ram.size * 2}GB for heavier multitasking.`);
-  } else {
-    upgradePath.push(`Year 2: Add secondary 1TB SSD for project archives.`);
-  }
+  // Validation & Auto-Adjustment Loop
+  let totalCost = validateBuild(cpu, gpu, ram, storage, otherCost);
   
-  if (gpu.name === 'Integrated Graphics') {
-    upgradePath.push(`Year 3: Drop in a dedicated mid-range GPU (like RTX 3050) for massive visual uplift.`);
-  } else {
-    upgradePath.push(`Year 3: Next-gen GPU platform upgrade.`);
+  while (totalCost > maxBudget) {
+    // Try to downgrade GPU first
+    const cheaperGPUs = filterByBudget(availableGPUs, gpu.price - 1000);
+    if (cheaperGPUs.length > 0 && gpu.tier > 0) {
+      gpu = cheaperGPUs[0];
+    } else {
+      // Downgrade CPU
+      const cheaperCPUs = filterByBudget(availableCPUs, cpu.price - 1000);
+      if (cheaperCPUs.length > 0) cpu = cheaperCPUs[0];
+      else break; // Can't downgrade further
+    }
+    totalCost = validateBuild(cpu, gpu, ram, storage, otherCost);
   }
-  upgradePath.push(`Year 4: Trade-in system for CampusLoop credit towards a workstation.`);
+
+  // If we have excess budget, upgrade RAM/Storage
+  if (totalCost < maxBudget - 5000) {
+    const betterRAMs = availableRAMs.filter(r => r.price > ram.price && r.price <= ram.price + (maxBudget - totalCost));
+    if (betterRAMs.length > 0) {
+      ram = betterRAMs[betterRAMs.length - 1]; // Pick most expensive within budget
+      totalCost = validateBuild(cpu, gpu, ram, storage, otherCost);
+    }
+    const betterStorages = availableStorages.filter(s => s.price > storage.price && s.price <= storage.price + (maxBudget - totalCost));
+    if (betterStorages.length > 0 && totalCost < maxBudget - 3000) {
+      storage = betterStorages[betterStorages.length - 1];
+      totalCost = validateBuild(cpu, gpu, ram, storage, otherCost);
+    }
+  }
+
+  const overallScore = Math.round((cpu.score*0.3) + (gpu.score*0.4) + (ram.score*0.15) + (storage.score*0.15));
+  let grade = overallScore >= 90 ? 'A+' : overallScore >= 80 ? 'A' : overallScore >= 70 ? 'B+' : 'B';
+
+  let reason = `At an estimated component cost of ₹${totalCost.toLocaleString()}, this ${cpu.brand} build offers peak value. `;
+  if (gpu.tier === 0) reason += `We prioritized the CPU (${cpu.name}) and fast storage to stay within the strict budget constraints.`;
+  else reason += `The ${gpu.name} paired with ${ram.size}GB RAM easily handles complex ${workload || branch} tasks.`;
 
   return {
-    cpu: cpu.name,
-    gpu: gpu.name,
-    ram: ram.name,
-    storage: storage.name,
+    specs: [
+      { icon: 'Cpu', label: 'Processor', value: cpu.name },
+      { icon: 'Zap', label: 'Graphics', value: gpu.name },
+      { icon: 'HardDrive', label: 'Memory', value: ram.name },
+      { icon: 'Binary', label: 'Storage', value: storage.name },
+    ],
+    estimatedCost: `₹${totalCost.toLocaleString()}`,
     score: overallScore,
-    grade: grade,
+    grade,
     reason,
-    upgradePath
+    upgradePath: [
+      `Year 2: Upgrade RAM to ${ram.size * 2}GB.`,
+      gpu.tier === 0 ? `Year 3: Add dedicated GPU (RTX 3050).` : `Year 3: Upgrade to Next-Gen GPU.`,
+      `Year 4: Trade-in for CampusLoop Credit.`
+    ]
   };
+};
+
+const getLaptopConfig = (branch, budgetStr, workload) => {
+  const maxBudget = parseBudget(budgetStr);
+  
+  let cpu, ram, gpu, storage;
+  let score, grade;
+
+  if (maxBudget <= 35000) {
+    cpu = pickTrulyRandom(['Intel Core i5 8th Gen', 'Intel Core i5 10th Gen', 'AMD Ryzen 3 3200U']);
+    ram = '8GB DDR4';
+    gpu = 'Intel UHD / AMD Vega';
+    storage = '256GB SSD';
+    score = 65; grade = 'B';
+  } else if (maxBudget <= 55000) {
+    cpu = pickTrulyRandom(['Intel Core i5 11th Gen', 'AMD Ryzen 5 5500U', 'Intel Core i7 10th Gen']);
+    ram = '16GB DDR4';
+    gpu = pickTrulyRandom(['Intel Iris Xe', 'NVIDIA MX350', 'GTX 1650 (Mobile)']);
+    storage = '512GB NVMe SSD';
+    score = 78; grade = 'B+';
+  } else {
+    cpu = pickTrulyRandom(['Intel Core i7 12th Gen', 'AMD Ryzen 7 5800H', 'AMD Ryzen 9 5900HX']);
+    ram = pickTrulyRandom(['16GB DDR5', '32GB DDR4']);
+    gpu = pickTrulyRandom(['RTX 3050 Ti (Mobile)', 'RTX 3060 (Mobile)']);
+    storage = '1TB NVMe SSD';
+    score = 92; grade = 'A';
+  }
+
+  const battery = pickTrulyRandom(['85% Capacity', '90% Capacity', '94% Capacity', '100% (New Battery)']);
+  const condition = pickTrulyRandom(['Grade A (Like New)', 'Grade A- (Minor Scratches)', 'Grade B+ (Good)']);
+  const display = pickTrulyRandom(['14" FHD IPS', '15.6" FHD 144Hz', '13.3" Retina/FHD']);
+
+  const estimatedCost = Math.round(maxBudget * (0.85 + Math.random() * 0.1)); // 85% to 95% of max budget
+
+  const reason = `This CampusLoop Certified Refurbished laptop offers an incredible value at roughly ₹${estimatedCost.toLocaleString()}. With ${battery} and ${condition} exterior, it provides premium performance for ${workload || branch} workloads at a fraction of the retail price.`;
+
+  return {
+    specs: [
+      { icon: 'Cpu', label: 'Processor', value: cpu },
+      { icon: 'Zap', label: 'Graphics', value: gpu },
+      { icon: 'HardDrive', label: 'Memory & Storage', value: `${ram} + ${storage}` },
+      { icon: 'Binary', label: 'Display', value: display },
+      { icon: 'Check', label: 'Condition', value: condition },
+      { icon: 'TrendingUp', label: 'Battery Health', value: battery },
+    ],
+    estimatedCost: `₹${estimatedCost.toLocaleString()}`,
+    score,
+    grade,
+    reason,
+    upgradePath: [
+      `Year 1: Claim included 1-Year Warranty if any issues arise.`,
+      `Year 2: Utilize free interior cleaning service.`,
+      `Year 3: Battery replacement if capacity drops below 70%.`,
+      `Year 4: Trade-in for upgraded model.`
+    ]
+  };
+};
+
+export const generateConfig = (deviceType, branch, budgetStr, workload) => {
+  if (deviceType === 'Laptop') {
+    return getLaptopConfig(branch, budgetStr, workload);
+  }
+  return getDesktopConfig(branch, budgetStr, workload);
 };

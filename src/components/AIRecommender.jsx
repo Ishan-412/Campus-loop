@@ -1,7 +1,16 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Brain, ChevronDown, Cpu, HardDrive, Zap, TrendingUp, Check, Sparkles, Binary, Rocket, Info } from 'lucide-react';
-import { branches, budgets, workloads, generateConfig } from '../utils/aiEngine';
+import { branches, budgets, workloads, deviceTypes, generateConfig } from '../utils/aiEngine';
+
+const iconMap = {
+  Cpu: <Cpu />,
+  Zap: <Zap />,
+  HardDrive: <HardDrive />,
+  Binary: <Binary />,
+  Check: <Check />,
+  TrendingUp: <TrendingUp />,
+};
 
 const softwareOptions = {
   'Computer Science': [
@@ -117,6 +126,7 @@ function ScoreHUD({ score, grade }) {
 }
 
 export default function AIRecommender() {
+  const [deviceType, setDeviceType] = useState('Desktop');
   const [branch, setBranch] = useState('');
   const [budget, setBudget] = useState('');
   const [workload, setWorkload] = useState('');
@@ -149,7 +159,7 @@ export default function AIRecommender() {
     setLoading(true);
     setResult(null);
     setTimeout(() => {
-      setResult(generateConfig(branch, budget, workload));
+      setResult(generateConfig(deviceType, branch, budget, workload));
       setLoading(false);
     }, 2500);
   };
@@ -192,6 +202,8 @@ export default function AIRecommender() {
             className="glass-strong rounded-[2.5rem] p-10 border border-white/10"
           >
             <div className="flex flex-col gap-8">
+              <Select label="Hardware Type" options={deviceTypes} value={deviceType} onChange={setDeviceType} />
+
               <Select label="Academic Specialization" options={branches} value={branch}
                 onChange={(v) => { setBranch(v); setSoftware([]); }} />
               
@@ -276,19 +288,19 @@ export default function AIRecommender() {
                       <div className="w-10 h-10 rounded-xl bg-violet-500/20 flex items-center justify-center border border-violet-500/30">
                         <Sparkles size={20} className="text-violet-400" />
                       </div>
-                      <h3 className="text-2xl font-black text-white tracking-tight">Optimal Synthesis</h3>
+                      <div>
+                        <h3 className="text-2xl font-black text-white tracking-tight">Optimal Synthesis</h3>
+                        <div className="text-xs text-emerald-400 font-bold mt-1 tracking-wider">
+                          EST. COST: {result.estimatedCost}
+                        </div>
+                      </div>
                     </div>
                   </div>
 
                   <ScoreHUD score={result.score} grade={result.grade} />
 
                   <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
-                    {[
-                      { icon: <Cpu />, label: 'Processor', value: result.cpu },
-                      { icon: <Zap />, label: 'Graphics', value: result.gpu },
-                      { icon: <HardDrive />, label: 'Memory', value: result.ram },
-                      { icon: <Binary />, label: 'Storage', value: result.storage },
-                    ].map((spec, i) => (
+                    {result.specs.map((spec, i) => (
                       <motion.div
                         key={spec.label}
                         initial={{ opacity: 0, y: 10 }}
@@ -302,7 +314,7 @@ export default function AIRecommender() {
                             whileHover={{ scale: 1.2, rotate: 10 }}
                             className="text-violet-400 scale-75 transition-transform"
                           >
-                            {spec.icon}
+                            {iconMap[spec.icon]}
                           </motion.span>
                           {spec.label}
                         </div>
