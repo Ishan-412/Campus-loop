@@ -143,7 +143,7 @@ export default function AIRecommender() {
   useEffect(() => {
     let interval;
     if (loading) {
-      const texts = ['Analyzing 10,000+ configurations...', 'Evaluating bottleneck metrics...', 'Synthesizing build...'];
+      const texts = ['Analyzing real-world configurations...', 'Evaluating bottleneck metrics...', 'Synthesizing build...'];
       let idx = 0;
       setLoadingText(texts[0]);
       interval = setInterval(() => {
