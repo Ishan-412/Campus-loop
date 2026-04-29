@@ -325,7 +325,7 @@ export default function AIRecommender() {
                       <span className="text-[10px] font-black text-violet-300 uppercase tracking-widest">4-Year Lifecycle Roadmap</span>
                     </div>
                     <div className="space-y-3">
-                      {result.upgrade.map((u, i) => (
+                      {result.upgradePath.map((u, i) => (
                         <div key={i} className="flex items-start gap-4 text-sm text-slate-400 font-medium">
                           <span className="text-violet-500 font-black tabular-nums">0{i+1}.</span>
                           {u}
