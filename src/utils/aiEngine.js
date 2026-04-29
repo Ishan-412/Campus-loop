@@ -6,8 +6,8 @@ export const branches = [
 ];
 
 export const budgets = [
-  '₹20k–30k', '₹30k–40k', '₹40k–50k', '₹50k–60k', '₹60k–70k',
-  '₹70k–80k', '₹80k–90k', '₹90k–1.1L', '₹1.1L–1.3L'
+  '₹30k–50k', '₹50k–80k', '₹80k–1.1L', '₹1.1L–1.5L', '₹1.5L–1.9L',
+  '₹1.9L–2.3L', '₹2.3L–2.7L', '₹2.7L–3.1L', '₹3.1L+'
 ];
 
 export const workloads = [
@@ -17,56 +17,56 @@ export const workloads = [
 export const deviceTypes = ['Desktop', 'Laptop'];
 
 const parseBudget = (budgetStr) => {
-  if (budgetStr === '₹20k–30k') return 30000;
-  if (budgetStr === '₹30k–40k') return 40000;
-  if (budgetStr === '₹40k–50k') return 50000;
-  if (budgetStr === '₹50k–60k') return 60000;
-  if (budgetStr === '₹60k–70k') return 70000;
-  if (budgetStr === '₹70k–80k') return 80000;
-  if (budgetStr === '₹80k–90k') return 90000;
-  if (budgetStr === '₹90k–1.1L') return 110000;
-  if (budgetStr === '₹1.1L–1.3L') return 130000;
-  return 60000; // default
+  if (budgetStr === '₹30k–50k') return 50000;
+  if (budgetStr === '₹50k–80k') return 80000;
+  if (budgetStr === '₹80k–1.1L') return 110000;
+  if (budgetStr === '₹1.1L–1.5L') return 150000;
+  if (budgetStr === '₹1.5L–1.9L') return 190000;
+  if (budgetStr === '₹1.9L–2.3L') return 230000;
+  if (budgetStr === '₹2.3L–2.7L') return 270000;
+  if (budgetStr === '₹2.7L–3.1L') return 310000;
+  if (budgetStr === '₹3.1L+') return 400000;
+  return 80000; // default
 };
 
 // --- DATASETS (DESKTOP) ---
 
 const cpus = [
-  { name: 'Intel Core i3-12100F', price: 7800, score: 55, brand: 'Intel' },
-  { name: 'AMD Ryzen 5 4500', price: 6500, score: 50, brand: 'AMD' },
-  { name: 'Intel Core i5-12400F', price: 12500, score: 70, brand: 'Intel' },
-  { name: 'AMD Ryzen 5 5600', price: 11500, score: 72, brand: 'AMD' },
-  { name: 'Intel Core i5-13400F', price: 18500, score: 82, brand: 'Intel' },
-  { name: 'AMD Ryzen 7 5800X', price: 19500, score: 85, brand: 'AMD' },
-  { name: 'Intel Core i7-12700K', price: 24500, score: 92, brand: 'Intel' },
-  { name: 'AMD Ryzen 9 7900X', price: 42000, score: 96, brand: 'AMD' },
+  { name: 'Intel Core i3-12100F', price: 9200, score: 55, brand: 'Intel' },
+  { name: 'AMD Ryzen 5 4500', price: 8800, score: 50, brand: 'AMD' },
+  { name: 'Intel Core i5-12400F', price: 15200, score: 70, brand: 'Intel' },
+  { name: 'AMD Ryzen 5 5600', price: 14000, score: 72, brand: 'AMD' },
+  { name: 'Intel Core i5-13400F', price: 22500, score: 82, brand: 'Intel' },
+  { name: 'AMD Ryzen 7 5800X', price: 23500, score: 85, brand: 'AMD' },
+  { name: 'Intel Core i7-12700K', price: 29200, score: 92, brand: 'Intel' },
+  { name: 'AMD Ryzen 9 7900X', price: 42800, score: 96, brand: 'AMD' },
 ];
 
 const gpus = [
   { name: 'Integrated Graphics', price: 0, score: 30, tier: 0 },
-  { name: 'NVIDIA GTX 1650 4GB', price: 10500, score: 50, tier: 1 },
-  { name: 'NVIDIA GTX 1660 Super', price: 11500, score: 55, tier: 1 },
-  { name: 'AMD Radeon RX 6600', price: 19500, score: 68, tier: 2 },
-  { name: 'NVIDIA RTX 3060 12GB', price: 21500, score: 75, tier: 3 },
-  { name: 'NVIDIA RTX 4060 8GB', price: 26500, score: 80, tier: 3 },
-  { name: 'NVIDIA RTX 3070 Ti', price: 34000, score: 88, tier: 3 },
-  { name: 'NVIDIA RTX 4070 Super', price: 58000, score: 95, tier: 4 },
-  { name: 'AMD Radeon RX 7800 XT', price: 52000, score: 90, tier: 4 },
+  { name: 'NVIDIA GTX 1650 4GB', price: 23600, score: 50, tier: 1 },
+  { name: 'NVIDIA GTX 1660 Super', price: 31500, score: 55, tier: 1 },
+  { name: 'AMD Radeon RX 6600', price: 43750, score: 68, tier: 2 },
+  { name: 'NVIDIA RTX 3060 12GB', price: 55000, score: 75, tier: 3 },
+  { name: 'NVIDIA RTX 4060 8GB', price: 63000, score: 80, tier: 3 },
+  { name: 'NVIDIA RTX 3070 Ti', price: 74800, score: 88, tier: 3 },
+  { name: 'NVIDIA RTX 4070 Super', price: 118000, score: 95, tier: 4 },
+  { name: 'AMD Radeon RX 7800 XT', price: 102500, score: 90, tier: 4 },
 ];
 
 const rams = [
-  { name: '8GB DDR4 3200MHz', price: 1900, score: 50, size: 8 },
-  { name: '16GB DDR4 3200MHz', price: 3600, score: 75, size: 16 },
-  { name: '32GB DDR4 3600MHz', price: 6800, score: 85, size: 32 },
-  { name: '32GB DDR5 5200MHz', price: 9500, score: 92, size: 32 },
-  { name: '64GB DDR5 6000MHz', price: 18500, score: 98, size: 64 },
+  { name: '8GB DDR4 3200MHz', price: 6800, score: 50, size: 8 },
+  { name: '16GB DDR4 3200MHz', price: 14000, score: 75, size: 16 },
+  { name: '32GB DDR4 3600MHz', price: 27200, score: 85, size: 32 },
+  { name: '32GB DDR5 5200MHz', price: 34800, score: 92, size: 32 },
+  { name: '64GB DDR5 6000MHz', price: 66000, score: 98, size: 64 },
 ];
 
 const storages = [
-  { name: '500GB NVMe Gen3', price: 3200, score: 65, size: 512 },
-  { name: '1TB NVMe Gen3', price: 5200, score: 75, size: 1024 },
-  { name: '1TB NVMe Gen4', price: 7500, score: 85, size: 1024 },
-  { name: '2TB NVMe Gen4', price: 12500, score: 95, size: 2048 },
+  { name: '500GB NVMe Gen3', price: 10200, score: 65, size: 512 },
+  { name: '1TB NVMe Gen3', price: 16700, score: 75, size: 1024 },
+  { name: '1TB NVMe Gen4', price: 21800, score: 85, size: 1024 },
+  { name: '2TB NVMe Gen4', price: 36900, score: 95, size: 2048 },
 ];
 
 // Random Helpers
