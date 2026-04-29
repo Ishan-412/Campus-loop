@@ -72,8 +72,8 @@ export default function FinalCTA() {
             transition={{ delay: 0.3 }}
             className="text-lg text-slate-400 mb-12 max-w-xl mx-auto leading-relaxed"
           >
-            Join hundreds of students already using CampusLoop to get the best hardware at the
-            best price — powered by AI, driven by community.
+            Be among the first students to experience CampusLoop — get the best hardware at the
+            best price, with AI-assisted recommendations driven by campus community.
           </motion.p>
 
           <motion.div
@@ -119,9 +119,9 @@ export default function FinalCTA() {
           >
             {[
               { icon: '🔒', text: 'Certified Hardware' },
-              { icon: '🤖', text: 'AI-Powered' },
+              { icon: '🤖', text: 'AI-Assisted' },
               { icon: '🌱', text: 'Eco Friendly' },
-              { icon: '⚡', text: 'Instant Delivery' },
+              { icon: '⚡', text: 'Campus Delivery' },
             ].map((badge) => (
               <motion.div
                 key={badge.text}

@@ -12,9 +12,9 @@ const floatingItems = [
 ];
 
 const stats = [
-  { value: '30%', label: 'Cost Savings',     icon: <Zap size={16} />,     color: 'from-violet-500 to-purple-600' },
-  { value: '500+', label: 'Builds Delivered', icon: <Shield size={16} />,  color: 'from-blue-500 to-cyan-500' },
-  { value: '2T+', label: 'e-Waste Reduced',  icon: <Recycle size={16} />, color: 'from-emerald-500 to-teal-500' },
+  { value: 'Up to 30%', label: 'Potential Savings', icon: <Zap size={16} />,     color: 'from-violet-500 to-purple-600' },
+  { value: '50+', label: 'Beta Builds',             icon: <Shield size={16} />,  color: 'from-blue-500 to-cyan-500' },
+  { value: 'Goal: Zero', label: 'Campus e-Waste',   icon: <Recycle size={16} />, color: 'from-emerald-500 to-teal-500' },
 ];
 
 export default function Hero() {
@@ -165,8 +165,8 @@ export default function Hero() {
           transition={{ delay: 0.4 }}
           className="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto mb-12 font-medium"
         >
-          A circular hardware economy powered by AI. Certifying, building, and 
-          trading hardware specifically for the campus community.
+          A circular hardware economy assisted by AI-driven recommendations. 
+          Certifying, building, and trading hardware for the campus community.
         </motion.p>
 
         {/* Actions */}

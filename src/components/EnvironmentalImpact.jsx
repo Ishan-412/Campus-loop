@@ -2,9 +2,9 @@ import { motion } from 'framer-motion';
 import { Leaf, TrendingDown, Recycle, Globe, ArrowUpRight } from 'lucide-react';
 
 const stats = [
-  { value: '2.1T', label: 'kg e-Waste Prevented', icon: <Recycle size={20} />, color: 'from-emerald-400 to-green-500', barWidth: '70%' },
-  { value: '68%', label: 'Component Reuse Rate', icon: <Leaf size={20} />, color: 'from-green-400 to-teal-500', barWidth: '68%' },
-  { value: '40%', label: 'Carbon Footprint Cut', icon: <TrendingDown size={20} />, color: 'from-cyan-400 to-blue-500', barWidth: '40%' },
+  { value: 'Goal', label: 'Minimise Campus e-Waste', icon: <Recycle size={20} />, color: 'from-emerald-400 to-green-500', barWidth: '70%' },
+  { value: 'Target: 70%', label: 'Component Reuse Rate', icon: <Leaf size={20} />, color: 'from-green-400 to-teal-500', barWidth: '68%' },
+  { value: 'Est. 30–40%', label: 'Lower Carbon Footprint', icon: <TrendingDown size={20} />, color: 'from-cyan-400 to-blue-500', barWidth: '40%' },
 ];
 
 const flowNodes = [

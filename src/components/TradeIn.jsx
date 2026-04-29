@@ -125,6 +125,11 @@ export default function TradeIn() {
         category: category.id,
         cashValue,
         ecosystemValue,
+        baseValue: Math.round(base),
+        condMult,
+        ageMult,
+        condReduction: Math.round(base - (base * condMult)),
+        ageReduction: Math.round((base * condMult) - rawValue),
       });
       setLoading(false);
     }, 2500);
@@ -154,7 +159,7 @@ export default function TradeIn() {
             className="inline-flex items-center gap-2 mb-5 px-4 py-1.5 rounded-full border border-emerald-500/30 glass"
           >
             <RefreshCw size={14} className="text-emerald-400" />
-            <span className="text-sm font-semibold text-emerald-300">Neural Appraiser</span>
+            <span className="text-sm font-semibold text-emerald-300">Smart Appraiser</span>
           </motion.div>
           <motion.h2
             initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}
@@ -219,7 +224,7 @@ export default function TradeIn() {
                 ) : (
                   <>
                     <Sparkles size={20} />
-                    Run Neural Appraisal
+                    Estimate Value
                   </>
                 )}
               </motion.button>
@@ -278,6 +283,25 @@ export default function TradeIn() {
                     <div className="text-xs text-slate-400 uppercase tracking-widest">{appraisal.category} • {condition.id} • {age.id}</div>
                   </div>
 
+                  {/* Valuation Breakdown */}
+                  <div className="p-4 rounded-[1.25rem] bg-white/5 border border-white/10 mb-4">
+                    <div className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-3">Valuation Breakdown</div>
+                    <div className="space-y-2">
+                      <div className="flex items-center justify-between text-sm">
+                        <span className="text-slate-400 font-medium">Base Market Value</span>
+                        <span className="text-white font-bold">₹{appraisal.baseValue?.toLocaleString()}</span>
+                      </div>
+                      <div className="flex items-center justify-between text-sm">
+                        <span className="text-slate-400 font-medium">Condition Adj. (×{appraisal.condMult})</span>
+                        <span className="text-rose-400 font-bold">−₹{appraisal.condReduction?.toLocaleString()}</span>
+                      </div>
+                      <div className="flex items-center justify-between text-sm">
+                        <span className="text-slate-400 font-medium">Age Depreciation (×{appraisal.ageMult})</span>
+                        <span className="text-rose-400 font-bold">−₹{appraisal.ageReduction?.toLocaleString()}</span>
+                      </div>
+                    </div>
+                  </div>
+
                   {/* Cash Value */}
                   <div className="flex justify-between items-center p-5 rounded-[1.5rem] bg-white/5 border border-white/10 mb-4">
                     <div>
@@ -293,7 +317,12 @@ export default function TradeIn() {
                     </div>
                     <div className="text-[10px] font-black text-emerald-400 uppercase tracking-widest mb-2">CampusLoop Credit</div>
                     <div className="text-4xl font-black text-white mb-2 tracking-tighter">₹{appraisal.ecosystemValue.toLocaleString()}</div>
-                    <div className="text-xs text-slate-400">Use this credit to seamlessly upgrade to a new system in the marketplace.</div>
+                    <div className="text-xs text-slate-400">Use this credit to upgrade to a new system in the marketplace.</div>
+                  </div>
+
+                  {/* Transparency Footnote */}
+                  <div className="mb-4 text-[10px] text-slate-500 leading-relaxed px-1">
+                    Estimated using AI-assisted pricing trends and Indian resale market data.
                   </div>
 
                   <motion.button

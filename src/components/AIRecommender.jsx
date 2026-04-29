@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Brain, ChevronDown, Cpu, HardDrive, Zap, TrendingUp, Check, Sparkles, Binary, Rocket, Info } from 'lucide-react';
+import { Brain, ChevronDown, Cpu, HardDrive, Zap, TrendingUp, Check, Sparkles, Binary, Rocket, Info, ShoppingCart, Save } from 'lucide-react';
 import { branches, budgets, workloads, deviceTypes, generateConfig } from '../utils/aiEngine';
 
 const iconMap = {
@@ -143,7 +143,7 @@ export default function AIRecommender() {
   useEffect(() => {
     let interval;
     if (loading) {
-      const texts = ['Analyzing real-world configurations...', 'Evaluating bottleneck metrics...', 'Synthesizing build...'];
+      const texts = ['Checking current market prices...', 'Matching components to your workload...', 'Preparing recommendation...'];
       let idx = 0;
       setLoadingText(texts[0]);
       interval = setInterval(() => {
@@ -178,20 +178,20 @@ export default function AIRecommender() {
             className="inline-flex items-center gap-2 mb-6 px-4 py-2 rounded-full border border-cyan-500/20 glass"
           >
             <Binary size={14} className="text-cyan-400" />
-            <span className="text-xs font-black text-cyan-300 uppercase tracking-widest">Neural Prediction Engine v1.0</span>
+            <span className="text-xs font-black text-cyan-300 uppercase tracking-widest">AI-Assisted Recommender</span>
           </motion.div>
           <motion.h2
             initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
             className="text-5xl md:text-7xl font-black mb-6 tracking-tighter"
           >
-            AI BUILD <span className="text-gradient">ARCHITECT</span>
+            SMART BUILD <span className="text-gradient">ADVISOR</span>
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}
             className="text-slate-400 text-xl font-medium max-w-2xl"
           >
-            Input your academic requirements and budget. Our neural engine will 
-            synthesize the optimal hardware configuration for your 4-year journey.
+            Input your academic requirements and budget. Our AI-assisted system will 
+            suggest the best hardware configuration for your needs.
           </motion.p>
         </div>
 
@@ -263,7 +263,7 @@ export default function AIRecommender() {
                 ) : (
                   <>
                     <Rocket size={20} />
-                    Synthesize Build
+                    Get Recommendation
                   </>
                 )}
               </motion.button>
@@ -290,7 +290,7 @@ export default function AIRecommender() {
                           <Sparkles size={20} className="text-violet-400" />
                         </div>
                         <div>
-                          <h3 className="text-2xl font-black text-white tracking-tight">Optimal Synthesis</h3>
+                          <h3 className="text-2xl font-black text-white tracking-tight">Recommended Build</h3>
                           <div className="text-xs text-emerald-400 font-bold mt-1 tracking-wider">
                             EST. COST: {result.estimatedCost}
                           </div>
@@ -324,12 +324,45 @@ export default function AIRecommender() {
                       ))}
                     </div>
 
-                    <div className="mb-8 p-5 rounded-[1.5rem] bg-indigo-500/10 border border-indigo-500/20 text-slate-300 text-sm leading-relaxed">
+                    <div className="mb-6 p-5 rounded-[1.5rem] bg-indigo-500/10 border border-indigo-500/20 text-slate-300 text-sm leading-relaxed">
                       <div className="flex items-center gap-2 mb-2">
                         <Info size={16} className="text-indigo-400" />
-                        <span className="font-bold text-white">AI Reasoning</span>
+                        <span className="font-bold text-white">Why this configuration</span>
                       </div>
                       {result.reason}
+                    </div>
+
+                    {/* Budget Breakdown */}
+                    {result.componentPrices && (
+                      <div className="mb-6 p-5 rounded-[1.5rem] bg-white/5 border border-white/10">
+                        <div className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-4">Budget Breakdown</div>
+                        <div className="space-y-2">
+                          {[
+                            { label: 'CPU', price: result.componentPrices.cpu },
+                            { label: 'GPU', price: result.componentPrices.gpu },
+                            { label: 'RAM', price: result.componentPrices.ram },
+                            { label: 'Storage', price: result.componentPrices.storage },
+                            { label: 'Case / Mobo / PSU', price: result.componentPrices.others },
+                          ].map((item) => (
+                            <div key={item.label} className="flex items-center justify-between text-sm">
+                              <span className="text-slate-400 font-medium">{item.label}</span>
+                              <span className="text-white font-bold">₹{item.price.toLocaleString()}</span>
+                            </div>
+                          ))}
+                          <div className="pt-2 mt-2 border-t border-white/10 flex items-center justify-between">
+                            <span className="text-white font-black text-sm">Total</span>
+                            <span className="text-white font-black text-sm">{result.estimatedCost}</span>
+                          </div>
+                        </div>
+                        <div className="mt-3 text-[10px] text-slate-500 leading-relaxed">
+                          Estimated prices reflect current Indian market data for refurbished components.
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Transparency Footnote */}
+                    <div className="mb-6 text-[10px] text-slate-500 leading-relaxed px-1">
+                      Configuration selected using AI-assisted logic based on your workload and budget.
                     </div>
 
                     <div className="mt-auto p-6 rounded-3xl bg-violet-500/5 border border-violet-500/20">
@@ -345,6 +378,26 @@ export default function AIRecommender() {
                           </div>
                         ))}
                       </div>
+                    </div>
+
+                    {/* CTA Buttons */}
+                    <div className="mt-6 flex flex-col sm:flex-row gap-3">
+                      <motion.button
+                        whileHover={{ scale: 1.03 }}
+                        whileTap={{ scale: 0.97 }}
+                        className="flex-1 btn-primary flex items-center justify-center gap-2 py-4 rounded-2xl font-black text-sm uppercase tracking-wider"
+                      >
+                        <ShoppingCart size={16} />
+                        Request This Build
+                      </motion.button>
+                      <motion.button
+                        whileHover={{ scale: 1.03, backgroundColor: 'rgba(255,255,255,0.08)' }}
+                        whileTap={{ scale: 0.97 }}
+                        className="flex-1 py-4 rounded-2xl border border-white/10 glass text-xs font-black text-slate-400 uppercase tracking-widest flex items-center justify-center gap-2"
+                      >
+                        <Save size={14} />
+                        Save & Compare
+                      </motion.button>
                     </div>
                   </motion.div>
                 ) : (
@@ -402,7 +455,7 @@ export default function AIRecommender() {
                     <div className="mb-6 p-5 rounded-[1.5rem] bg-indigo-500/10 border border-indigo-500/20 text-slate-300 text-sm leading-relaxed">
                       <div className="flex items-center gap-2 mb-2">
                         <Info size={16} className="text-indigo-400" />
-                        <span className="font-bold text-white">AI Reasoning</span>
+                        <span className="font-bold text-white">Why this configuration</span>
                       </div>
                       {result.reason}
                     </div>
@@ -439,10 +492,10 @@ export default function AIRecommender() {
                   <div className="w-24 h-24 rounded-[2rem] glass-strong flex items-center justify-center mb-8 shadow-2xl group-hover:scale-110 transition-transform duration-500">
                     <Brain size={48} className="text-violet-500/50" />
                   </div>
-                  <h3 className="text-2xl font-black text-white mb-4 uppercase tracking-tight">Ready for Synthesis</h3>
+                  <h3 className="text-2xl font-black text-white mb-4 uppercase tracking-tight">Ready to Recommend</h3>
                   <p className="text-slate-500 max-w-xs font-medium leading-relaxed">
-                    Complete your profile configuration to generate a high-fidelity 
-                    hardware roadmap.
+                    Complete your profile to get a personalised 
+                    hardware suggestion.
                   </p>
                 </motion.div>
               )}

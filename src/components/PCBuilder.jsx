@@ -107,7 +107,7 @@ export default function PCBuilder() {
             className="inline-flex items-center gap-2 mb-6 px-4 py-2 rounded-full border border-violet-500/20 glass"
           >
             <Settings size={14} className="text-violet-400" />
-            <span className="text-xs font-black text-violet-300 uppercase tracking-widest">Modular Engine v2.4</span>
+            <span className="text-xs font-black text-violet-300 uppercase tracking-widest">Component Selector</span>
           </motion.div>
           <motion.h2
             initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
@@ -119,8 +119,8 @@ export default function PCBuilder() {
             initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}
             className="text-slate-400 text-xl font-medium leading-relaxed"
           >
-            Architect your ideal workstation with real-time performance 
-            analytics and dynamic pricing synchronization.
+            Architect your ideal workstation with transparent, real-time 
+            pricing based on current Indian hardware data.
           </motion.p>
         </div>
 
@@ -227,7 +227,7 @@ export default function PCBuilder() {
               
               <div className="relative z-10">
                 <div className="flex items-center justify-between mb-10">
-                  <h3 className="text-xs font-black text-slate-400 uppercase tracking-[0.3em]">Build HUD v4.0</h3>
+                  <h3 className="text-xs font-black text-slate-400 uppercase tracking-[0.3em]">Build Summary</h3>
                   <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_10px_rgba(16,185,129,0.5)]" />
                 </div>
 
@@ -236,13 +236,13 @@ export default function PCBuilder() {
                   <PerfRing score={avgScore} />
                   <div className="flex justify-center gap-4 mt-6">
                     <div className="text-center">
-                      <div className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">Efficiency</div>
-                      <div className="text-sm font-black text-white">94%</div>
+                      <div className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">Components</div>
+                      <div className="text-sm font-black text-white">5 selected</div>
                     </div>
                     <div className="w-px h-8 bg-white/10" />
                     <div className="text-center">
-                      <div className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">Stability</div>
-                      <div className="text-sm font-black text-white">99%</div>
+                      <div className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">Market Data</div>
+                      <div className="text-sm font-black text-emerald-400">Live</div>
                     </div>
                   </div>
                 </div>
@@ -278,7 +278,7 @@ export default function PCBuilder() {
                     className="w-full btn-primary flex items-center justify-center gap-3 py-5 rounded-[1.25rem] font-black uppercase tracking-[0.1em]"
                   >
                     <ShoppingCart size={18} />
-                    INITIALIZE ORDER
+                    REQUEST THIS BUILD
                   </motion.button>
                   <motion.button 
                     whileHover={{ scale: 1.03, backgroundColor: 'rgba(255,255,255,0.08)' }}
@@ -286,14 +286,14 @@ export default function PCBuilder() {
                     className="w-full py-4 rounded-[1.25rem] border border-white/5 glass transition-all text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] flex items-center justify-center gap-2"
                   >
                     <Save size={14} />
-                    SAVE CONFIGURATION
+                    SAVE & SHARE
                   </motion.button>
                 </div>
 
                 {/* Footer status */}
                 <div className="mt-8 flex items-center gap-2">
                   <BarChart3 size={12} className="text-violet-500" />
-                  <span className="text-[9px] font-black text-slate-600 uppercase tracking-widest">System Ready • Components Validated</span>
+                  <span className="text-[9px] font-black text-slate-600 uppercase tracking-widest">Prices based on current Indian market estimates</span>
                 </div>
               </div>
             </div>

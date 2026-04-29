@@ -163,9 +163,9 @@ const getDesktopConfig = (branch, budgetStr, workload) => {
   const overallScore = Math.round((cpu.score*0.3) + (gpu.score*0.4) + (ram.score*0.15) + (storage.score*0.15));
   let grade = overallScore >= 90 ? 'A+' : overallScore >= 80 ? 'A' : overallScore >= 70 ? 'B+' : 'B';
 
-  let reason = `At an estimated component cost of ₹${totalCost.toLocaleString()}, this ${cpu.brand} build offers peak value. `;
+  let reason = `At an estimated component cost of ₹${totalCost.toLocaleString()}, this ${cpu.brand} build offers strong value. `;
   if (gpu.tier === 0) reason += `We prioritized the CPU (${cpu.name}) and fast storage to stay within the strict budget constraints.`;
-  else reason += `The ${gpu.name} paired with ${ram.size}GB RAM easily handles complex ${workload || branch} tasks.`;
+  else reason += `The ${gpu.name} paired with ${ram.size}GB RAM handles complex ${workload || branch} tasks well.`;
 
   return {
     deviceType: 'Desktop',
@@ -175,6 +175,13 @@ const getDesktopConfig = (branch, budgetStr, workload) => {
       { icon: 'HardDrive', label: 'Memory', value: ram.name },
       { icon: 'Binary', label: 'Storage', value: storage.name },
     ],
+    componentPrices: {
+      cpu: cpu.price,
+      gpu: gpu.price,
+      ram: ram.price,
+      storage: storage.price,
+      others: otherCost,
+    },
     estimatedCost: `₹${totalCost.toLocaleString()}`,
     score: overallScore,
     grade,

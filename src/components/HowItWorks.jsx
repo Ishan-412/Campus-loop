@@ -30,7 +30,7 @@ const steps = [
     num: '03',
     icon: <Zap className="text-emerald-400" size={32} />,
     title: 'Junior Buys',
-    desc: 'Freshers get AI-recommended, certified builds at up to 30% below market price. Software comes pre-configured based on their exact academic branch (e.g., AutoCAD for Mechanical).',
+    desc: 'Freshers get AI-recommended, certified builds at competitive prices compared to retail. Software comes pre-configured based on their academic branch (e.g., AutoCAD for Mechanical).',
     color: 'from-emerald-500 to-teal-500',
     bg: 'bg-emerald-500/10',
     border: 'border-emerald-500/30',

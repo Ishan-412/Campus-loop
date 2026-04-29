@@ -26,18 +26,18 @@ const values = [
     color: 'from-violet-500 to-purple-600',
     glow: 'rgba(124,58,237,0.4)',
     title: 'Drastic Savings',
-    desc: 'Certified refurbished components at a fraction of market price. Get premium performance without the premium cost.',
-    statNode: <Counter from={0} to={30} duration={2} suffix="%" />,
-    statLabel: 'avg cost savings',
+    desc: 'Certified refurbished components at a fraction of market price. Savings vary based on component availability and condition.',
+    statNode: <span>Up to 30%</span>,
+    statLabel: 'potential savings',
   },
   {
     icon: <Brain size={24} />,
     color: 'from-blue-500 to-cyan-500',
     glow: 'rgba(6,182,212,0.4)',
-    title: 'AI-Personalized',
-    desc: 'No guesswork. Our AI engine analyzes your branch and budget to build the exact machine you need.',
-    statNode: <Counter from={0} to={98} duration={2.5} suffix="%" />,
-    statLabel: 'match rate accuracy',
+    title: 'AI-Assisted',
+    desc: 'Our AI-assisted system matches your branch, budget, and workload to find the best-fit configuration.',
+    statNode: <span>High</span>,
+    statLabel: 'relevance match',
   },
   {
     icon: <RefreshCw size={24} />,
@@ -53,18 +53,18 @@ const values = [
     color: 'from-green-500 to-lime-500',
     glow: 'rgba(34,197,94,0.4)',
     title: 'Sustainable',
-    desc: 'Each refurbished build keeps components out of landfills. Every loop is a step toward a greener campus.',
-    statNode: <Counter from={0} to={2000} duration={3} suffix="kg+" />,
-    statLabel: 'e-waste prevented',
+    desc: 'Every refurbished build is one less device in a landfill. Each loop is a step toward a greener campus.',
+    statNode: <span>Goal</span>,
+    statLabel: 'reduce e-waste',
   },
 ];
 
 const liveActivities = [
   { text: "Rahul (Mechanical '25) traded an RTX 3060 for ₹18,000 credit", icon: <RefreshCw size={14} className="text-emerald-400" /> },
-  { text: "Aman synthesized a High-End CAD Laptop", icon: <Laptop size={14} className="text-violet-400" /> },
-  { text: "CampusLoop verified an Intel i7-10700K • Health: 96%", icon: <CheckCircle size={14} className="text-cyan-400" /> },
+  { text: "Aman requested a High-End CAD build", icon: <Laptop size={14} className="text-violet-400" /> },
+  { text: "New Intel i7-10700K listed on CampusLoop", icon: <CheckCircle size={14} className="text-cyan-400" /> },
   { text: "Priya (CS '27) upgraded to 32GB RAM", icon: <Cpu size={14} className="text-rose-400" /> },
-  { text: "New High-End GPU arrived in the marketplace", icon: <Zap size={14} className="text-amber-400" /> },
+  { text: "New GPU listing added to the marketplace", icon: <Zap size={14} className="text-amber-400" /> },
 ];
 
 export default function ValueProposition() {

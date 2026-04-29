@@ -156,7 +156,7 @@ export default function QualityCheck() {
             style={{ background: 'rgba(59,130,246,0.08)', backdropFilter: 'blur(10px)' }}
           >
             <Shield size={14} className="text-blue-400" />
-            <span className="text-sm font-semibold text-blue-300">Automated Diagnostics</span>
+            <span className="text-sm font-semibold text-blue-300">Verified Hardware Program</span>
           </motion.div>
           <motion.h2
             initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}
@@ -168,7 +168,7 @@ export default function QualityCheck() {
             initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }}
             className="text-slate-400 text-lg max-w-xl mx-auto"
           >
-            Every component undergoes 50+ stress tests, benchmarks, and thermal analysis before certification.
+            Every component is tested by technicians, graded (A/B+/B), and backed by a basic warranty before certification.
           </motion.p>
         </div>
 
@@ -214,7 +214,7 @@ export default function QualityCheck() {
                 <Shield size={16} className="text-emerald-400" />
                 <span className="text-xs font-bold text-emerald-300 uppercase tracking-wider">CampusLoop Certified</span>
               </div>
-              <p className="text-xs text-slate-400 leading-relaxed">All components include a 6-month warranty and detailed health certificate.</p>
+              <p className="text-xs text-slate-400 leading-relaxed">All components include a 6-month warranty and detailed health certificate. Basic 6-month warranty on all Grade A & B+ components.</p>
             </div>
           </motion.div>
 
