@@ -187,6 +187,7 @@ const getDesktopConfig = (branch, budgetStr, workload) => {
   else reason += `The ${gpu.name} paired with ${ram.size}GB RAM easily handles complex ${workload || branch} tasks.`;
 
   return {
+    deviceType: 'Desktop',
     specs: [
       { icon: 'Cpu', label: 'Processor', value: cpu.name },
       { icon: 'Zap', label: 'Graphics', value: gpu.name },
@@ -240,18 +241,17 @@ const getLaptopConfig = (branch, budgetStr, workload) => {
   const reason = `This CampusLoop Certified Refurbished laptop offers an incredible value at roughly ₹${estimatedCost.toLocaleString()}. With ${battery} and ${condition} exterior, it provides premium performance for ${workload || branch} workloads at a fraction of the retail price.`;
 
   return {
-    specs: [
-      { icon: 'Cpu', label: 'Processor', value: cpu },
-      { icon: 'Zap', label: 'Graphics', value: gpu },
-      { icon: 'HardDrive', label: 'Memory & Storage', value: `${ram} + ${storage}` },
-      { icon: 'Binary', label: 'Display', value: display },
-      { icon: 'Check', label: 'Condition', value: condition },
-      { icon: 'TrendingUp', label: 'Battery Health', value: battery },
-    ],
-    estimatedCost: `₹${estimatedCost.toLocaleString()}`,
-    score,
-    grade,
+    deviceType: 'Laptop',
+    cpu,
+    ram,
+    storage: `${storage} SSD`,
+    batteryHealth: battery,
+    condition,
+    performanceScore: score.toString(),
+    recommendedFor: workload || branch,
     reason,
+    estimatedCost: `₹${estimatedCost.toLocaleString()}`,
+    grade,
     upgradePath: [
       `Year 1: Claim included 1-Year Warranty if any issues arise.`,
       `Year 2: Utilize free interior cleaning service.`,

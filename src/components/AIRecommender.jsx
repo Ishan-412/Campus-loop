@@ -274,78 +274,160 @@ export default function AIRecommender() {
           <div className={`relative h-full min-h-[500px] ${loading ? 'shimmer rounded-[2.5rem]' : ''}`}>
             <AnimatePresence mode="wait">
               {result ? (
-                <motion.div
-                  key="result"
-                  initial={{ opacity: 0, scale: 0.9, rotateX: 20 }}
-                  animate={{ opacity: 1, scale: 1, rotateX: 0 }}
-                  exit={{ opacity: 0, scale: 0.9 }}
-                  className="glass-strong rounded-[2.5rem] p-10 border border-violet-500/30 relative h-full flex flex-col shadow-[0_0_80px_rgba(124,58,237,0.15)]"
-                >
-                  <div className="absolute inset-0 scan-line-container opacity-10 pointer-events-none rounded-[2.5rem]" />
-                  
-                  <div className="flex items-center justify-between mb-10">
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-xl bg-violet-500/20 flex items-center justify-center border border-violet-500/30">
-                        <Sparkles size={20} className="text-violet-400" />
-                      </div>
-                      <div>
-                        <h3 className="text-2xl font-black text-white tracking-tight">Optimal Synthesis</h3>
-                        <div className="text-xs text-emerald-400 font-bold mt-1 tracking-wider">
-                          EST. COST: {result.estimatedCost}
+                result.deviceType === 'Desktop' ? (
+                  <motion.div
+                    key="desktop-result"
+                    initial={{ opacity: 0, scale: 0.9, rotateX: 20 }}
+                    animate={{ opacity: 1, scale: 1, rotateX: 0 }}
+                    exit={{ opacity: 0, scale: 0.9 }}
+                    className="glass-strong rounded-[2.5rem] p-10 border border-violet-500/30 relative h-full flex flex-col shadow-[0_0_80px_rgba(124,58,237,0.15)]"
+                  >
+                    <div className="absolute inset-0 scan-line-container opacity-10 pointer-events-none rounded-[2.5rem]" />
+                    
+                    <div className="flex items-center justify-between mb-10">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-xl bg-violet-500/20 flex items-center justify-center border border-violet-500/30">
+                          <Sparkles size={20} className="text-violet-400" />
+                        </div>
+                        <div>
+                          <h3 className="text-2xl font-black text-white tracking-tight">Optimal Synthesis</h3>
+                          <div className="text-xs text-emerald-400 font-bold mt-1 tracking-wider">
+                            EST. COST: {result.estimatedCost}
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
 
-                  <ScoreHUD score={result.score} grade={result.grade} />
+                    <ScoreHUD score={result.score} grade={result.grade} />
 
-                  <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
-                    {result.specs.map((spec, i) => (
-                      <motion.div
-                        key={spec.label}
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: i * 0.1 }}
-                        whileHover={{ y: -5, borderColor: 'rgba(139,92,246,0.3)' }}
-                        className="p-5 glass border border-white/5 rounded-[1.5rem] transition-colors group"
-                      >
-                        <div className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-2 flex items-center gap-2">
-                          <motion.span 
-                            whileHover={{ scale: 1.2, rotate: 10 }}
-                            className="text-violet-400 scale-75 transition-transform"
-                          >
-                            {iconMap[spec.icon]}
-                          </motion.span>
-                          {spec.label}
-                        </div>
-                        <div className="text-sm font-black text-white leading-tight">{spec.value}</div>
-                      </motion.div>
-                    ))}
-                  </div>
-
-                  <div className="mb-8 p-5 rounded-[1.5rem] bg-indigo-500/10 border border-indigo-500/20 text-slate-300 text-sm leading-relaxed">
-                    <div className="flex items-center gap-2 mb-2">
-                      <Info size={16} className="text-indigo-400" />
-                      <span className="font-bold text-white">AI Reasoning</span>
-                    </div>
-                    {result.reason}
-                  </div>
-
-                  <div className="mt-auto p-6 rounded-3xl bg-violet-500/5 border border-violet-500/20">
-                    <div className="flex items-center gap-3 mb-4">
-                      <TrendingUp size={16} className="text-violet-400" />
-                      <span className="text-[10px] font-black text-violet-300 uppercase tracking-widest">4-Year Lifecycle Roadmap</span>
-                    </div>
-                    <div className="space-y-3">
-                      {result.upgradePath.map((u, i) => (
-                        <div key={i} className="flex items-start gap-4 text-sm text-slate-400 font-medium">
-                          <span className="text-violet-500 font-black tabular-nums">0{i+1}.</span>
-                          {u}
-                        </div>
+                    <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+                      {result.specs.map((spec, i) => (
+                        <motion.div
+                          key={spec.label}
+                          initial={{ opacity: 0, y: 10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: i * 0.1 }}
+                          whileHover={{ y: -5, borderColor: 'rgba(139,92,246,0.3)' }}
+                          className="p-5 glass border border-white/5 rounded-[1.5rem] transition-colors group"
+                        >
+                          <div className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-2 flex items-center gap-2">
+                            <motion.span 
+                              whileHover={{ scale: 1.2, rotate: 10 }}
+                              className="text-violet-400 scale-75 transition-transform"
+                            >
+                              {iconMap[spec.icon]}
+                            </motion.span>
+                            {spec.label}
+                          </div>
+                          <div className="text-sm font-black text-white leading-tight">{spec.value}</div>
+                        </motion.div>
                       ))}
                     </div>
-                  </div>
-                </motion.div>
+
+                    <div className="mb-8 p-5 rounded-[1.5rem] bg-indigo-500/10 border border-indigo-500/20 text-slate-300 text-sm leading-relaxed">
+                      <div className="flex items-center gap-2 mb-2">
+                        <Info size={16} className="text-indigo-400" />
+                        <span className="font-bold text-white">AI Reasoning</span>
+                      </div>
+                      {result.reason}
+                    </div>
+
+                    <div className="mt-auto p-6 rounded-3xl bg-violet-500/5 border border-violet-500/20">
+                      <div className="flex items-center gap-3 mb-4">
+                        <TrendingUp size={16} className="text-violet-400" />
+                        <span className="text-[10px] font-black text-violet-300 uppercase tracking-widest">4-Year Lifecycle Roadmap</span>
+                      </div>
+                      <div className="space-y-3">
+                        {result.upgradePath.map((u, i) => (
+                          <div key={i} className="flex items-start gap-4 text-sm text-slate-400 font-medium">
+                            <span className="text-violet-500 font-black tabular-nums">0{i+1}.</span>
+                            {u}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </motion.div>
+                ) : (
+                  <motion.div
+                    key="laptop-result"
+                    initial={{ opacity: 0, scale: 0.9, rotateX: 20 }}
+                    animate={{ opacity: 1, scale: 1, rotateX: 0 }}
+                    exit={{ opacity: 0, scale: 0.9 }}
+                    className="glass-strong rounded-[2.5rem] p-10 border border-violet-500/30 relative h-full flex flex-col shadow-[0_0_80px_rgba(124,58,237,0.15)]"
+                  >
+                    <div className="absolute inset-0 scan-line-container opacity-10 pointer-events-none rounded-[2.5rem]" />
+                    
+                    <div className="flex items-center justify-between mb-8">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-xl bg-emerald-500/20 flex items-center justify-center border border-emerald-500/30">
+                          <Check size={20} className="text-emerald-400" />
+                        </div>
+                        <div>
+                          <h3 className="text-xl font-black text-white tracking-tight">Tested & Certified Refurbished</h3>
+                          <div className="text-xs text-emerald-400 font-bold mt-1 tracking-wider">
+                            EST. COST: {result.estimatedCost}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <ScoreHUD score={result.performanceScore} grade={result.grade} />
+
+                    <div className="mt-8 mb-6 p-6 rounded-2xl bg-white/5 border border-white/10">
+                      <div className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-4">Core Specifications</div>
+                      <div className="space-y-4">
+                        <div className="flex justify-between items-center border-b border-white/5 pb-2">
+                          <span className="text-sm text-slate-400 font-medium">Processor</span>
+                          <span className="text-sm font-bold text-white text-right">{result.cpu}</span>
+                        </div>
+                        <div className="flex justify-between items-center border-b border-white/5 pb-2">
+                          <span className="text-sm text-slate-400 font-medium">Memory</span>
+                          <span className="text-sm font-bold text-white text-right">{result.ram}</span>
+                        </div>
+                        <div className="flex justify-between items-center border-b border-white/5 pb-2">
+                          <span className="text-sm text-slate-400 font-medium">Storage</span>
+                          <span className="text-sm font-bold text-white text-right">{result.storage}</span>
+                        </div>
+                        <div className="flex justify-between items-center border-b border-white/5 pb-2">
+                          <span className="text-sm text-slate-400 font-medium">Battery Health</span>
+                          <span className="text-sm font-bold text-emerald-400 text-right">{result.batteryHealth}</span>
+                        </div>
+                        <div className="flex justify-between items-center">
+                          <span className="text-sm text-slate-400 font-medium">Condition Grade</span>
+                          <span className="text-sm font-bold text-violet-300 text-right">{result.condition}</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="mb-6 p-5 rounded-[1.5rem] bg-indigo-500/10 border border-indigo-500/20 text-slate-300 text-sm leading-relaxed">
+                      <div className="flex items-center gap-2 mb-2">
+                        <Info size={16} className="text-indigo-400" />
+                        <span className="font-bold text-white">AI Reasoning</span>
+                      </div>
+                      {result.reason}
+                    </div>
+
+                    <div className="mt-auto p-6 rounded-3xl bg-violet-500/5 border border-violet-500/20">
+                      <div className="flex items-center gap-3 mb-4">
+                        <Binary size={16} className="text-violet-400" />
+                        <span className="text-[10px] font-black text-violet-300 uppercase tracking-widest">
+                          Pre-installed for {branch || 'General Use'}
+                        </span>
+                      </div>
+                      <div className="flex flex-wrap gap-2">
+                        {availableSoftware.length > 0 ? availableSoftware.slice(0, 4).map((sw, i) => (
+                          <div key={i} className="text-xs font-bold px-3 py-1.5 rounded-full glass border border-white/10 text-slate-300">
+                            {sw}
+                          </div>
+                        )) : (
+                          <div className="text-xs font-bold px-3 py-1.5 rounded-full glass border border-white/10 text-slate-300">
+                            Essential Campus Suite
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </motion.div>
+                )
               ) : (
                 <motion.div
                   key="placeholder"
