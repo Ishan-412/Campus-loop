@@ -1,265 +1,327 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { RefreshCw, TrendingUp, Zap, ArrowRight, CheckCircle, Wallet } from 'lucide-react';
+import { RefreshCw, TrendingUp, Zap, ArrowRight, CheckCircle, Wallet, Laptop, Cpu, HardDrive, Binary, Sparkles, Search, Check, Info } from 'lucide-react';
 
-const components = [
-  { name: 'RTX 3060 (8GB)', category: 'GPU', condition: 'Excellent', baseValue: 18500, demand: 'High', icon: '🎮',
-    desc: 'VRAM tested, 91% health score', glowColor: 'rgba(124,58,237,0.4)' },
-  { name: '16GB DDR4 RAM', category: 'RAM', condition: 'Good', baseValue: 3200, demand: 'Medium', icon: '💾',
-    desc: 'Both sticks verified, stable timing', glowColor: 'rgba(59,130,246,0.4)' },
-  { name: '1TB NVMe SSD', category: 'Storage', condition: 'Very Good', baseValue: 5500, demand: 'High', icon: '💿',
-    desc: '97% SMART health, 3.5GB/s read', glowColor: 'rgba(16,185,129,0.4)' },
-  { name: 'Intel i7-10700K', category: 'CPU', condition: 'Good', baseValue: 12000, demand: 'Medium', icon: '⚡',
-    desc: 'All cores stable at 4.7GHz', glowColor: 'rgba(245,158,11,0.4)' },
-  { name: 'Corsair 650W PSU', category: 'PSU', condition: 'Excellent', baseValue: 4200, demand: 'Low', icon: '🔌',
-    desc: '80+ Gold, ripple within spec', glowColor: 'rgba(239,68,68,0.4)' },
-  { name: 'ASUS RTX 3070', category: 'GPU', condition: 'Very Good', baseValue: 26000, demand: 'High', icon: '🖥️',
-    desc: 'Factory OC, 95% health score', glowColor: 'rgba(139,92,246,0.4)' },
+const categories = [
+  { id: 'Laptop', icon: Laptop, baseValue: 35000 },
+  { id: 'GPU', icon: Zap, baseValue: 18000 },
+  { id: 'CPU', icon: Cpu, baseValue: 12000 },
+  { id: 'RAM', icon: HardDrive, baseValue: 3500 },
+  { id: 'Storage', icon: Binary, baseValue: 4000 },
 ];
 
-const demandConfig = {
-  High:   { bg: 'rgba(16,185,129,0.12)',  border: 'rgba(16,185,129,0.35)',  text: '#10B981', label: '🔥 High Demand' },
-  Medium: { bg: 'rgba(245,158,11,0.12)', border: 'rgba(245,158,11,0.35)', text: '#F59E0B', label: '⚡ Med Demand' },
-  Low:    { bg: 'rgba(239,68,68,0.12)',   border: 'rgba(239,68,68,0.35)',   text: '#EF4444', label: '❄️ Low Demand' },
-};
+const conditions = [
+  { id: 'Like New', desc: 'No scratches, perfect condition', mult: 1.0 },
+  { id: 'Good', desc: 'Minor wear, fully functional', mult: 0.8 },
+  { id: 'Fair', desc: 'Visible wear, fully functional', mult: 0.6 },
+  { id: 'Poor', desc: 'Heavy wear or minor defects', mult: 0.3 },
+];
 
-const multipliers = { High: 1.0, Medium: 0.85, Low: 0.7 };
+const ages = [
+  { id: 'Under 1 Year', mult: 1.0 },
+  { id: '1-2 Years', mult: 0.8 },
+  { id: '2-3 Years', mult: 0.6 },
+  { id: '3+ Years', mult: 0.4 },
+];
+
+function Select({ label, options, value, onChange, icon: Icon }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <div className="relative" style={{ zIndex: open ? 50 : 1 }}>
+      <label className="block text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mb-2">{label}</label>
+      <button
+        onClick={() => setOpen(!open)}
+        className="w-full glass border border-white/5 rounded-2xl px-5 py-4 text-left flex items-center justify-between text-sm hover:border-emerald-500/30 transition-all duration-300 group"
+      >
+        <div className="flex items-center gap-3">
+          {Icon && <Icon size={16} className={value ? 'text-emerald-400' : 'text-slate-500'} />}
+          <span className={value ? 'text-white font-bold' : 'text-slate-500'}>
+            {value ? value.id || value : `Select ${label}`}
+          </span>
+        </div>
+        <div className={`transition-transform duration-300 text-slate-500 ${open ? 'rotate-180 text-emerald-400' : ''}`}>▼</div>
+      </button>
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            initial={{ opacity: 0, y: 10, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 10, scale: 0.95 }}
+            className="absolute top-full mt-3 left-0 right-0 glass-strong border border-white/10 rounded-2xl overflow-hidden shadow-2xl z-50 p-2"
+          >
+            <div className="max-h-60 overflow-y-auto space-y-1">
+              {options.map((opt) => {
+                const optId = opt.id || opt;
+                const isSelected = (value?.id || value) === optId;
+                return (
+                  <button
+                    key={optId}
+                    onClick={() => { onChange(opt); setOpen(false); }}
+                    className={`w-full px-4 py-3 rounded-xl text-left text-sm transition-all flex items-center justify-between
+                      ${isSelected ? 'bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/30' : 'text-slate-400 hover:bg-white/5 hover:text-white border border-transparent'}`}
+                  >
+                    <div>
+                      <div>{optId}</div>
+                      {opt.desc && <div className="text-[10px] text-slate-500 font-normal mt-0.5">{opt.desc}</div>}
+                    </div>
+                    {isSelected && <Check size={16} />}
+                  </button>
+                );
+              })}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
 
 export default function TradeIn() {
-  const [selected, setSelected] = useState(null);
+  const [category, setCategory] = useState('');
+  const [modelName, setModelName] = useState('');
+  const [condition, setCondition] = useState('');
+  const [age, setAge] = useState('');
+
+  const [loading, setLoading] = useState(false);
+  const [loadingText, setLoadingText] = useState('Initiating Scan...');
+  const [appraisal, setAppraisal] = useState(null);
   const [credited, setCredited] = useState(false);
-  const getValue = (item) => Math.round(item.baseValue * multipliers[item.demand]);
+
+  useEffect(() => {
+    let interval;
+    if (loading) {
+      const texts = ['Analyzing market data...', 'Evaluating condition multipliers...', 'Calculating ecosystem bonus...'];
+      let idx = 0;
+      setLoadingText(texts[0]);
+      interval = setInterval(() => {
+        idx = (idx + 1) % texts.length;
+        setLoadingText(texts[idx]);
+      }, 800);
+    }
+    return () => clearInterval(interval);
+  }, [loading]);
+
+  const runAppraisal = () => {
+    if (!category || !modelName || !condition || !age) return;
+    setLoading(true);
+    setAppraisal(null);
+
+    // Deterministic hash based on model name to vary the base value slightly
+    let hash = 0;
+    for (let i = 0; i < modelName.length; i++) hash = Math.imul(31, hash) + modelName.charCodeAt(i) | 0;
+    const variance = (Math.abs(hash) % 40) / 100 + 0.8; // 0.8 to 1.2 multiplier
+
+    setTimeout(() => {
+      const base = category.baseValue * variance;
+      const condMult = condition.mult;
+      const ageMult = age.mult;
+      
+      const rawValue = Math.round(base * condMult * ageMult);
+      const cashValue = Math.max(rawValue, 500); // Minimum 500
+      const ecosystemValue = Math.round(cashValue * 1.2); // 20% Bonus!
+
+      setAppraisal({
+        modelName,
+        category: category.id,
+        cashValue,
+        ecosystemValue,
+      });
+      setLoading(false);
+    }, 2500);
+  };
 
   const handleCredit = () => {
-    if (!selected) return;
     setCredited(true);
-    setTimeout(() => { setCredited(false); setSelected(null); }, 3500);
+    setTimeout(() => { 
+      setCredited(false); 
+      setAppraisal(null); 
+      setCategory('');
+      setModelName('');
+      setCondition('');
+      setAge('');
+    }, 3500);
   };
 
   return (
     <section id="trade-in" className="section-padding bg-dark-950 relative overflow-hidden">
-      {/* Background */}
-      <div className="absolute inset-0" style={{
-        backgroundImage: 'radial-gradient(ellipse at 20% 60%, rgba(16,185,129,0.06) 0%, transparent 60%)',
-      }} />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_20%_60%,rgba(16,185,129,0.06)_0%,transparent_60%)]" />
       <div className="absolute top-0 right-0 w-[500px] h-[500px] orb bg-emerald-600 opacity-8" />
 
       <div className="container-custom relative z-10">
-        {/* Header */}
         <div className="text-center mb-16">
           <motion.div
             initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-            className="inline-flex items-center gap-2 mb-5 px-4 py-1.5 rounded-full border border-emerald-500/30"
-            style={{ background: 'rgba(16,185,129,0.08)', backdropFilter: 'blur(10px)' }}
+            className="inline-flex items-center gap-2 mb-5 px-4 py-1.5 rounded-full border border-emerald-500/30 glass"
           >
             <RefreshCw size={14} className="text-emerald-400" />
-            <span className="text-sm font-semibold text-emerald-300">Instant Liquidity</span>
+            <span className="text-sm font-semibold text-emerald-300">Neural Appraiser</span>
           </motion.div>
           <motion.h2
             initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}
-            className="text-4xl md:text-5xl font-black mb-4"
+            className="text-5xl md:text-6xl font-black mb-6 tracking-tighter"
           >
-            Smart <span className="text-gradient">Trade-In</span> System
+            SMART <span className="text-gradient">TRADE-IN</span>
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }}
-            className="text-slate-400 text-lg max-w-xl mx-auto"
+            className="text-slate-400 text-lg max-w-2xl mx-auto font-medium"
           >
-            Real-time demand-based pricing. Get instant campus credits in under 5 minutes.
+            Appraise your old laptops and components. Choose cash, or get a massive 20% bonus by keeping it in the CampusLoop ecosystem.
           </motion.p>
         </div>
 
-        <div className="grid lg:grid-cols-5 gap-8 items-start">
-          {/* Components list — 3 cols */}
+        <div className="grid lg:grid-cols-5 gap-10 items-start">
+          {/* Inputs Panel */}
           <motion.div
-            initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}
-            className="lg:col-span-3 space-y-3"
+            initial={{ opacity: 0, x: -40 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}
+            className="lg:col-span-3 glass-strong rounded-[2.5rem] p-10 border border-white/10"
           >
-            {/* Live header */}
-            <div className="flex items-center gap-2 mb-5 px-1">
-              <TrendingUp size={15} className="text-slate-400" />
-              <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Live Market Board</span>
-              <span className="ml-auto flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                <span className="text-xs font-semibold text-emerald-400">Live</span>
-              </span>
+            <div className="flex items-center gap-3 mb-8">
+              <Search size={20} className="text-emerald-400" />
+              <h3 className="text-xl font-black text-white">Device Details</h3>
             </div>
 
-            {components.map((comp, i) => {
-              const val = getValue(comp);
-              const dm = demandConfig[comp.demand];
-              const isSelected = selected?.name === comp.name;
-              return (
-                <motion.div
-                  key={comp.name}
-                  initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }} transition={{ delay: i * 0.07, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                  whileHover={{ x: 8, borderColor: 'rgba(16,185,129,0.3)', boxShadow: `0 8px 32px ${comp.glowColor}` }}
-                  onClick={() => setSelected(isSelected ? null : comp)}
-                  className="rounded-2xl p-4 border cursor-pointer transition-all duration-300 card-shine group"
-                  style={{
-                    background: isSelected ? 'rgba(16,185,129,0.05)' : 'rgba(255,255,255,0.02)',
-                    backdropFilter: 'blur(16px)',
-                    borderColor: isSelected ? 'rgba(16,185,129,0.4)' : 'rgba(255,255,255,0.06)',
-                    boxShadow: isSelected ? `0 0 40px ${comp.glowColor}` : 'none',
-                  }}
-                >
-                  <div className="flex items-center gap-4">
-                    <motion.div whileHover={{ scale: 1.2, rotate: 10 }} className="text-3xl transition-transform">{comp.icon}</motion.div>
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2 mb-0.5 flex-wrap">
-                        <span className="font-semibold text-white text-sm">{comp.name}</span>
-                        <span
-                          className="text-[10px] px-2 py-0.5 rounded-full font-semibold"
-                          style={{ background: dm.bg, border: `1px solid ${dm.border}`, color: dm.text }}
-                        >
-                          {dm.label}
-                        </span>
-                      </div>
-                      <div className="text-[11px] text-slate-400">{comp.category} • {comp.condition}</div>
-                      <div className="text-[11px] text-slate-500 mt-0.5">{comp.desc}</div>
-                    </div>
-                    <div className="text-right shrink-0">
-                      <div className="text-lg font-black text-white">₹{val.toLocaleString()}</div>
-                      <div className="text-[10px] text-emerald-400 font-medium">Instant credit</div>
-                    </div>
-                    <div className={`w-5 h-5 rounded-full border-2 transition-all shrink-0 ${
-                      isSelected
-                        ? 'border-emerald-400 bg-emerald-400 scale-110'
-                        : 'border-white/20 bg-transparent'
-                    }`}>
-                      {isSelected && <CheckCircle size={12} className="text-dark-950 m-auto mt-0.5" />}
-                    </div>
-                  </div>
-                </motion.div>
-              );
-            })}
+            <div className="flex flex-col gap-6">
+              <Select label="Device Category" options={categories} value={category} onChange={setCategory} icon={category ? category.icon : Laptop} />
+              
+              <div className="relative">
+                <label className="block text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mb-2">Device / Model Name</label>
+                <input
+                  type="text"
+                  placeholder="e.g. Dell XPS 15, RTX 3060, Ryzen 5600X"
+                  value={modelName}
+                  onChange={(e) => setModelName(e.target.value)}
+                  className="w-full glass border border-white/5 rounded-2xl px-5 py-4 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-emerald-500/50 transition-all duration-300"
+                />
+              </div>
+
+              <Select label="Current Condition" options={conditions} value={condition} onChange={setCondition} />
+              <Select label="Usage Age" options={ages} value={age} onChange={setAge} />
+
+              <motion.button
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+                onClick={runAppraisal}
+                disabled={!category || !modelName || !condition || !age || loading}
+                className={`w-full mt-4 py-5 rounded-2xl flex items-center justify-center gap-3 font-black text-sm transition-all tracking-widest uppercase ${
+                  (!category || !modelName || !condition || !age)
+                    ? 'bg-white/5 text-slate-600 border border-white/5 cursor-not-allowed'
+                    : 'bg-emerald-500 text-dark-950 shadow-[0_10px_40px_rgba(16,185,129,0.3)] hover:bg-emerald-400'
+                }`}
+              >
+                {loading ? (
+                  <>
+                    <motion.div animate={{ rotate: 360 }} transition={{ duration: 2, repeat: Infinity, ease: "linear" }}>
+                      <RefreshCw size={20} className="text-dark-950" />
+                    </motion.div>
+                    {loadingText}
+                  </>
+                ) : (
+                  <>
+                    <Sparkles size={20} />
+                    Run Neural Appraisal
+                  </>
+                )}
+              </motion.button>
+            </div>
           </motion.div>
 
-          {/* Summary panel — 2 cols */}
+          {/* Appraisal Summary Panel */}
           <motion.div
-            initial={{ opacity: 0, x: 30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}
-            className="lg:col-span-2 sticky top-24"
+            initial={{ opacity: 0, x: 40 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}
+            className="lg:col-span-2 relative h-full min-h-[400px]"
           >
-            <div className="rounded-3xl p-7 border overflow-hidden"
-              style={{
-                background: 'rgba(255,255,255,0.02)',
-                backdropFilter: 'blur(24px)',
-                borderColor: 'rgba(255,255,255,0.06)',
-              }}
-            >
-              <h3 className="text-lg font-bold mb-6 flex items-center gap-2">
-                <Wallet size={18} className="text-emerald-400" />
-                Trade-In Summary
-              </h3>
-
-              <AnimatePresence mode="wait">
-                {credited ? (
-                  <motion.div
-                    key="success"
-                    initial={{ scale: 0.85, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ opacity: 0 }}
-                    className="text-center py-10"
-                  >
-                    <motion.div
-                      animate={{ rotate: [0, 10, -10, 0], scale: [1, 1.2, 1] }}
-                      transition={{ duration: 0.5 }}
-                      className="text-5xl mb-4"
-                    >✅</motion.div>
-                    <div className="text-xl font-bold text-emerald-400 mb-2">Credit Added!</div>
-                    <p className="text-sm text-slate-400">Your CampusLoop wallet has been updated.</p>
-                  </motion.div>
-                ) : selected ? (
-                  <motion.div key="selected" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-                    {/* Component preview */}
-                    <div className="text-center py-5 rounded-2xl mb-5 border border-white/5"
-                      style={{ background: 'rgba(255,255,255,0.02)' }}>
-                      <div className="text-4xl mb-3">{selected.icon}</div>
-                      <div className="font-bold text-white text-sm mb-1">{selected.name}</div>
-                      <div className="text-xs text-slate-400">{selected.category} • {selected.condition}</div>
-                    </div>
-
-                    {/* Payout */}
-                    <div className="rounded-2xl p-5 border border-emerald-500/25 mb-5"
-                      style={{ background: 'rgba(16,185,129,0.06)' }}>
-                      <div className="text-xs text-slate-400 mb-1 uppercase tracking-wider font-semibold">Your Payout</div>
-                      <motion.div
-                        key={selected.name}
-                        initial={{ scale: 0.7, opacity: 0 }} animate={{ scale: 1, opacity: 1 }}
-                        className="text-4xl font-black"
-                        style={{
-                          background: 'linear-gradient(135deg, #10B981, #06B6D4)',
-                          WebkitBackgroundClip: 'text',
-                          WebkitTextFillColor: 'transparent',
-                          backgroundClip: 'text',
-                        }}
-                      >
-                        ₹{getValue(selected).toLocaleString()}
-                      </motion.div>
-                      <div className="text-xs text-emerald-400 mt-1">+ Instant store credit</div>
-                    </div>
-
-                    {/* Breakdown */}
-                    <div className="space-y-2.5 text-sm mb-6">
-                      {[
-                        ['Market Rate', `₹${selected.baseValue.toLocaleString()}`],
-                        ['Demand Factor', `${(multipliers[selected.demand] * 100).toFixed(0)}%`],
-                        ['Your Credit', `₹${getValue(selected).toLocaleString()}`],
-                      ].map(([k, v]) => (
-                        <div key={k} className="flex justify-between">
-                          <span className="text-slate-400 text-xs">{k}</span>
-                          <span className="text-white font-semibold text-xs">{v}</span>
-                        </div>
-                      ))}
-                    </div>
-
-                    <motion.button
-                      whileHover={{ scale: 1.03, boxShadow: '0 20px 48px rgba(16,185,129,0.4)' }}
-                      whileTap={{ scale: 0.97 }}
-                      onClick={handleCredit}
-                      className="w-full py-4 rounded-2xl font-bold text-sm text-white flex items-center justify-center gap-2 transition-all duration-300"
-                      style={{
-                        background: 'linear-gradient(135deg, #10B981, #06B6D4)',
-                        boxShadow: '0 8px 28px rgba(16,185,129,0.35)',
-                      }}
-                    >
-                      <Zap size={16} />
-                      Claim Instant Credit
-                      <ArrowRight size={16} />
-                    </motion.button>
-                  </motion.div>
-                ) : (
-                  <motion.div key="empty" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-                    className="text-center py-12 text-slate-500"
-                  >
-                    <motion.div
-                      animate={{ rotate: 360 }} transition={{ duration: 8, repeat: Infinity, ease: 'linear' }}
-                      className="w-14 h-14 rounded-full border border-dashed border-slate-700 flex items-center justify-center mx-auto mb-4"
-                    >
-                      <RefreshCw size={22} className="opacity-30" />
-                    </motion.div>
-                    <p className="text-sm">Select a component<br />to see its trade-in value</p>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-
-            {/* Trust pills */}
-            <div className="grid grid-cols-3 gap-2 mt-3">
-              {[
-                { icon: '✅', text: 'Fair Price' },
-                { icon: '⚡', text: 'Instant' },
-                { icon: '🤝', text: 'No Haggling' },
-              ].map((t) => (
+            <AnimatePresence mode="wait">
+              {loading ? (
                 <motion.div
-                  key={t.text} whileHover={{ y: -2 }}
-                  className="rounded-xl p-2.5 text-center border border-white/5 transition-all"
-                  style={{ background: 'rgba(255,255,255,0.02)', backdropFilter: 'blur(12px)' }}
+                  key="loading"
+                  initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+                  className="glass-strong rounded-[2.5rem] p-10 border border-emerald-500/30 h-full flex items-center justify-center shimmer relative overflow-hidden"
                 >
-                  <div className="text-base mb-0.5">{t.icon}</div>
-                  <div className="text-[10px] font-semibold text-slate-400">{t.text}</div>
+                  <div className="absolute inset-0 scan-line-container opacity-20 pointer-events-none" />
                 </motion.div>
-              ))}
-            </div>
+              ) : credited ? (
+                <motion.div
+                  key="success"
+                  initial={{ scale: 0.85, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ opacity: 0 }}
+                  className="glass-strong rounded-[2.5rem] p-10 border border-emerald-500/50 h-full flex flex-col items-center justify-center text-center shadow-[0_0_80px_rgba(16,185,129,0.2)]"
+                >
+                  <motion.div
+                    animate={{ rotate: [0, 10, -10, 0], scale: [1, 1.2, 1] }}
+                    transition={{ duration: 0.5 }}
+                    className="w-20 h-20 bg-emerald-500/20 border border-emerald-500/50 rounded-full flex items-center justify-center mb-6"
+                  >
+                    <Check size={40} className="text-emerald-400" />
+                  </motion.div>
+                  <div className="text-2xl font-black text-white tracking-tight mb-2">Value Locked!</div>
+                  <p className="text-sm text-slate-400 font-medium">Please drop off your {appraisal?.category} at the Campus IT center within 48 hours to complete the transfer.</p>
+                </motion.div>
+              ) : appraisal ? (
+                <motion.div
+                  key="result"
+                  initial={{ opacity: 0, scale: 0.9, rotateX: 20 }}
+                  animate={{ opacity: 1, scale: 1, rotateX: 0 }}
+                  exit={{ opacity: 0, scale: 0.9 }}
+                  className="glass-strong rounded-[2.5rem] p-10 border border-emerald-500/30 relative h-full flex flex-col shadow-[0_0_80px_rgba(16,185,129,0.15)]"
+                >
+                  <div className="absolute inset-0 scan-line-container opacity-10 pointer-events-none rounded-[2.5rem]" />
+                  
+                  <div className="flex items-center gap-3 mb-8">
+                    <div className="w-10 h-10 rounded-xl bg-emerald-500/20 flex items-center justify-center border border-emerald-500/30">
+                      <Wallet size={20} className="text-emerald-400" />
+                    </div>
+                    <h3 className="text-2xl font-black text-white tracking-tight">Appraisal Summary</h3>
+                  </div>
+
+                  <div className="text-center py-5 rounded-2xl mb-8 glass border border-white/5">
+                    <div className="font-bold text-white text-lg mb-1">{appraisal.modelName}</div>
+                    <div className="text-xs text-slate-400 uppercase tracking-widest">{appraisal.category} • {condition.id} • {age.id}</div>
+                  </div>
+
+                  {/* Cash Value */}
+                  <div className="flex justify-between items-center p-5 rounded-[1.5rem] bg-white/5 border border-white/10 mb-4">
+                    <div>
+                      <div className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">Direct Cash Payout</div>
+                      <div className="text-xl font-bold text-white">₹{appraisal.cashValue.toLocaleString()}</div>
+                    </div>
+                  </div>
+
+                  {/* Ecosystem Bonus */}
+                  <div className="relative p-6 rounded-[1.5rem] bg-emerald-500/10 border border-emerald-500/30 mb-8 overflow-hidden">
+                    <div className="absolute top-0 right-0 bg-emerald-500 text-dark-950 text-[10px] font-black px-3 py-1 rounded-bl-xl">
+                      +20% ECOSYSTEM BONUS
+                    </div>
+                    <div className="text-[10px] font-black text-emerald-400 uppercase tracking-widest mb-2">CampusLoop Credit</div>
+                    <div className="text-4xl font-black text-white mb-2 tracking-tighter">₹{appraisal.ecosystemValue.toLocaleString()}</div>
+                    <div className="text-xs text-slate-400">Use this credit to seamlessly upgrade to a new system in the marketplace.</div>
+                  </div>
+
+                  <motion.button
+                    whileHover={{ scale: 1.03 }}
+                    whileTap={{ scale: 0.97 }}
+                    onClick={handleCredit}
+                    className="w-full py-4 rounded-2xl font-bold text-sm text-dark-950 flex items-center justify-center gap-2 transition-all bg-emerald-400 hover:bg-emerald-300 mt-auto shadow-[0_10px_30px_rgba(52,211,153,0.3)]"
+                  >
+                    Lock In Trade Value
+                    <ArrowRight size={16} />
+                  </motion.button>
+                </motion.div>
+              ) : (
+                <motion.div
+                  key="placeholder"
+                  initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+                  className="glass rounded-[2.5rem] p-10 border border-white/5 h-full flex flex-col items-center justify-center text-center group"
+                >
+                  <div className="w-24 h-24 rounded-[2rem] glass-strong flex items-center justify-center mb-8 shadow-2xl group-hover:scale-110 transition-transform duration-500">
+                    <RefreshCw size={48} className="text-emerald-500/50" />
+                  </div>
+                  <h3 className="text-2xl font-black text-white mb-4 uppercase tracking-tight">Awaiting Input</h3>
+                  <p className="text-slate-500 max-w-xs font-medium leading-relaxed">
+                    Enter your device details in the appraiser to reveal its market value and ecosystem bonus.
+                  </p>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </motion.div>
         </div>
       </div>
