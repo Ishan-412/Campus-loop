@@ -4,34 +4,34 @@ import { Settings, Plus, Minus, Zap, ShoppingCart, Save, TrendingUp, BarChart3, 
 
 const componentOptions = {
   CPU: [
-    { name: 'AMD Ryzen 5 5600X', price: 9500, score: 70, icon: '⚡', tier: 'Budget' },
-    { name: 'AMD Ryzen 7 5800H', price: 14000, score: 82, icon: '⚡', tier: 'Balanced' },
-    { name: 'Intel i7-12700H', price: 18500, score: 90, icon: '⚡', tier: 'Pro' },
-    { name: 'Intel i9-12900HX', price: 28000, score: 97, icon: '⚡', tier: 'Beast' },
+    { name: 'Intel i3-12100F', price: 7499, score: 55, icon: '⚡', tier: 'Budget' },
+    { name: 'AMD Ryzen 5 5600', price: 11250, score: 72, icon: '⚡', tier: 'Balanced' },
+    { name: 'Intel i7-12700K', price: 24800, score: 88, icon: '⚡', tier: 'Pro' },
+    { name: 'AMD Ryzen 9 7900X', price: 41500, score: 96, icon: '⚡', tier: 'Beast' },
   ],
   GPU: [
-    { name: 'GTX 1660 Super', price: 9800, score: 60, icon: '🖥️', tier: 'Budget' },
-    { name: 'RTX 3060 8GB', price: 18500, score: 80, icon: '🖥️', tier: 'Balanced' },
-    { name: 'RTX 3070 Ti', price: 32000, score: 95, icon: '🖥️', tier: 'Pro' },
-    { name: 'RTX 3080 10GB', price: 45000, score: 99, icon: '🖥️', tier: 'Beast' },
+    { name: 'GTX 1660 Super', price: 11800, score: 55, icon: '🖥️', tier: 'Budget' },
+    { name: 'RTX 3060 12GB', price: 21200, score: 78, icon: '🖥️', tier: 'Balanced' },
+    { name: 'RTX 3070 Ti', price: 33500, score: 90, icon: '🖥️', tier: 'Pro' },
+    { name: 'RTX 4070 Super', price: 58900, score: 98, icon: '🖥️', tier: 'Beast' },
   ],
   RAM: [
-    { name: '8GB DDR4 3200', price: 1800, score: 50, icon: '💾', tier: 'Budget' },
-    { name: '16GB DDR4 3200', price: 3200, score: 70, icon: '💾', tier: 'Balanced' },
-    { name: '32GB DDR5 4800', price: 7500, score: 90, icon: '💾', tier: 'Pro' },
-    { name: '64GB DDR5 5600', price: 14000, score: 97, icon: '💾', tier: 'Beast' },
+    { name: '8GB DDR4 3200', price: 1850, score: 50, icon: '💾', tier: 'Budget' },
+    { name: '16GB DDR4 3200', price: 3499, score: 75, icon: '💾', tier: 'Balanced' },
+    { name: '32GB DDR5 5200', price: 9200, score: 92, icon: '💾', tier: 'Pro' },
+    { name: '64GB DDR5 6000', price: 18200, score: 98, icon: '💾', tier: 'Beast' },
   ],
   Storage: [
-    { name: '256GB NVMe SSD', price: 2200, score: 55, icon: '💿', tier: 'Budget' },
-    { name: '512GB NVMe SSD', price: 3800, score: 75, icon: '💿', tier: 'Balanced' },
-    { name: '1TB NVMe Gen4', price: 5500, score: 90, icon: '💿', tier: 'Pro' },
-    { name: '2TB NVMe Gen4', price: 9500, score: 97, icon: '💿', tier: 'Beast' },
+    { name: '500GB NVMe SSD', price: 3150, score: 65, icon: '💿', tier: 'Budget' },
+    { name: '1TB NVMe Gen3', price: 5100, score: 78, icon: '💿', tier: 'Balanced' },
+    { name: '1TB NVMe Gen4', price: 7450, score: 90, icon: '💿', tier: 'Pro' },
+    { name: '2TB NVMe Gen4', price: 12800, score: 97, icon: '💿', tier: 'Beast' },
   ],
   PSU: [
-    { name: '450W 80+ Bronze', price: 2500, score: 55, icon: '🔌', tier: 'Budget' },
-    { name: '650W 80+ Gold', price: 4200, score: 75, icon: '🔌', tier: 'Balanced' },
-    { name: '850W 80+ Platinum', price: 7000, score: 90, icon: '🔌', tier: 'Pro' },
-    { name: '1000W 80+ Titan', price: 11000, score: 97, icon: '🔌', tier: 'Beast' },
+    { name: '550W 80+ Bronze', price: 3100, score: 60, icon: '🔌', tier: 'Budget' },
+    { name: '650W 80+ Gold', price: 5250, score: 80, icon: '🔌', tier: 'Balanced' },
+    { name: '850W 80+ Gold', price: 9400, score: 92, icon: '🔌', tier: 'Pro' },
+    { name: '1000W 80+ Platinum', price: 15800, score: 98, icon: '🔌', tier: 'Beast' },
   ],
 };
 
@@ -251,11 +251,11 @@ export default function PCBuilder() {
                 <div className="space-y-4 mb-10">
                   <div className="flex items-center justify-between">
                     <span className="text-xs font-black text-slate-500 uppercase tracking-widest">Base Estimate</span>
-                    <span className="text-sm font-black text-white">₹{(totalPrice * 0.95).toLocaleString()}</span>
+                    <span className="text-sm font-black text-white">₹{(totalPrice).toLocaleString()}</span>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="text-xs font-black text-slate-500 uppercase tracking-widest">Assembly Fee</span>
-                    <span className="text-sm font-black text-emerald-400">INCLUDED</span>
+                    <span className="text-xs font-black text-slate-500 uppercase tracking-widest">Assembly & Warranty</span>
+                    <span className="text-sm font-black text-emerald-400">₹1,499 (FREE)</span>
                   </div>
                   <div className="pt-4 border-t border-white/10 flex items-center justify-between">
                     <span className="text-sm font-black text-white uppercase tracking-[0.2em]">Total</span>
