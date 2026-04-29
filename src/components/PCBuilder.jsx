@@ -4,40 +4,59 @@ import { Settings, Plus, Minus, Zap, ShoppingCart, Save, TrendingUp, BarChart3, 
 
 const componentOptions = {
   CPU: [
-    { name: 'Intel i3-12100F',   price: 13800,  score: 55, icon: '⚡', tier: 'Budget' },
-    { name: 'AMD Ryzen 5 5600',  price: 21000,  score: 72, icon: '⚡', tier: 'Balanced' },
-    { name: 'Intel i7-12700K',   price: 43800,  score: 92, icon: '⚡', tier: 'Pro' },
-    { name: 'AMD Ryzen 9 7900X', price: 64200,  score: 96, icon: '⚡', tier: 'Beast' },
+    { name: 'Intel i3-12100F',   price: 13800, score: 55, icon: '⚡', tier: 'Budget' },
+    { name: 'AMD Ryzen 5 5600',  price: 21000, score: 72, icon: '⚡', tier: 'Balanced' },
+    { name: 'Intel i7-12700K',   price: 43800, score: 92, icon: '⚡', tier: 'Pro' },
+    { name: 'AMD Ryzen 9 7900X', price: 64200, score: 96, icon: '⚡', tier: 'Beast' },
   ],
   GPU: [
-    { name: 'GTX 1660 Super',   price: 47250,  score: 55, icon: '🖥️', tier: 'Budget' },
-    { name: 'RTX 3060 12GB',    price: 82500,  score: 75, icon: '🖥️', tier: 'Balanced' },
+    { name: 'GTX 1660 Super',   price: 47250, score: 55, icon: '🖥️', tier: 'Budget' },
+    { name: 'RTX 3060 12GB',    price: 82500, score: 75, icon: '🖥️', tier: 'Balanced' },
     { name: 'RTX 3070 Ti',      price: 112200, score: 88, icon: '🖥️', tier: 'Pro' },
     { name: 'RTX 4070 Super',   price: 177000, score: 95, icon: '🖥️', tier: 'Beast' },
   ],
   RAM: [
-    { name: '8GB DDR4 3200MHz',  price: 10200,  score: 50, icon: '💾', tier: 'Budget' },
-    { name: '16GB DDR4 3200MHz', price: 21000,  score: 75, icon: '💾', tier: 'Balanced' },
-    { name: '32GB DDR5 5200MHz', price: 52200,  score: 92, icon: '💾', tier: 'Pro' },
-    { name: '64GB DDR5 6000MHz', price: 99000,  score: 98, icon: '💾', tier: 'Beast' },
+    { name: '8GB DDR4 3200MHz',  price: 10200, score: 50, icon: '💾', tier: 'Budget' },
+    { name: '16GB DDR4 3200MHz', price: 21000, score: 75, icon: '💾', tier: 'Balanced' },
+    { name: '32GB DDR5 5200MHz', price: 52200, score: 92, icon: '💾', tier: 'Pro' },
+    { name: '64GB DDR5 6000MHz', price: 99000, score: 98, icon: '💾', tier: 'Beast' },
   ],
   Storage: [
-    { name: '500GB NVMe Gen3', price: 15300,  score: 65, icon: '💿', tier: 'Budget' },
-    { name: '1TB NVMe Gen3',   price: 25050,  score: 75, icon: '💿', tier: 'Balanced' },
-    { name: '1TB NVMe Gen4',   price: 32700,  score: 85, icon: '💿', tier: 'Pro' },
-    { name: '2TB NVMe Gen4',   price: 55350,  score: 95, icon: '💿', tier: 'Beast' },
+    { name: '500GB NVMe Gen3', price: 15300, score: 65, icon: '💿', tier: 'Budget' },
+    { name: '1TB NVMe Gen3',   price: 25050, score: 75, icon: '💿', tier: 'Balanced' },
+    { name: '1TB NVMe Gen4',   price: 32700, score: 85, icon: '💿', tier: 'Pro' },
+    { name: '2TB NVMe Gen4',   price: 55350, score: 95, icon: '💿', tier: 'Beast' },
   ],
   PSU: [
-    { name: '550W 80+ Bronze',    price: 5700,  score: 60, icon: '🔌', tier: 'Budget' },
-    { name: '650W 80+ Gold',      price: 9750,  score: 80, icon: '🔌', tier: 'Balanced' },
+    { name: '550W 80+ Bronze',    price: 5700, score: 60, icon: '🔌', tier: 'Budget' },
+    { name: '650W 80+ Gold',      price: 9750, score: 80, icon: '🔌', tier: 'Balanced' },
     { name: '850W 80+ Gold',      price: 15750, score: 92, icon: '🔌', tier: 'Pro' },
     { name: '1000W 80+ Platinum', price: 27750, score: 98, icon: '🔌', tier: 'Beast' },
   ],
-};
-
-const baseSystemCosts = {
-  Desktop: { name: 'Case, Mobo & Peripherals', price: 18500 },
-  Laptop: { name: 'Chassis, Screen & Battery', price: 32000 },
+  Motherboard: [
+    { name: 'B660M / B550M',     price: 15000, score: 65, icon: '🎛️', tier: 'Budget' },
+    { name: 'Z690 / X570',       price: 28500, score: 80, icon: '🎛️', tier: 'Balanced' },
+    { name: 'Z790 / X670E',      price: 52500, score: 92, icon: '🎛️', tier: 'Pro' },
+    { name: 'ROG Maximus',       price: 90000, score: 98, icon: '🎛️', tier: 'Beast' },
+  ],
+  Case: [
+    { name: 'Standard Mid Tower',price: 6000, score: 60, icon: '📦', tier: 'Budget' },
+    { name: 'Airflow Case',      price: 12000, score: 75, icon: '📦', tier: 'Balanced' },
+    { name: 'Premium Glass ATX', price: 22500, score: 85, icon: '📦', tier: 'Pro' },
+    { name: 'Enthusiast Tower',  price: 45000, score: 95, icon: '📦', tier: 'Beast' },
+  ],
+  Cooling: [
+    { name: 'Stock / Basic Air', price: 3000, score: 55, icon: '❄️', tier: 'Budget' },
+    { name: 'Tower Air Cooler',  price: 7500, score: 75, icon: '❄️', tier: 'Balanced' },
+    { name: '240mm AIO Liquid',  price: 16500, score: 88, icon: '❄️', tier: 'Pro' },
+    { name: '360mm Premium AIO', price: 28500, score: 96, icon: '❄️', tier: 'Beast' },
+  ],
+  LaptopBase: [
+    { name: 'Basic (i3, 14")',     price: 45000, score: 55, icon: '💻', tier: 'Budget' },
+    { name: 'Mainstream (i5, 15")',price: 75000, score: 75, icon: '💻', tier: 'Balanced' },
+    { name: 'Performance (i7)',    price: 120000, score: 88, icon: '💻', tier: 'Pro' },
+    { name: 'Enthusiast (i9)',     price: 210000, score: 96, icon: '💻', tier: 'Beast' },
+  ],
 };
 
 const tierColors = {
@@ -53,6 +72,10 @@ const catGlow = {
   RAM: 'rgba(6,182,212,0.35)',
   Storage: 'rgba(16,185,129,0.35)',
   PSU: 'rgba(245,158,11,0.3)',
+  Motherboard: 'rgba(236,72,153,0.3)',
+  Case: 'rgba(100,116,139,0.3)',
+  Cooling: 'rgba(14,165,233,0.3)',
+  LaptopBase: 'rgba(139,92,246,0.3)',
 };
 
 function PerfRing({ score }) {
@@ -87,21 +110,34 @@ function PerfRing({ score }) {
 }
 
 export default function PCBuilder() {
-  const [deviceType, setDeviceType] = useState('Desktop');
-  const [buildMode, setBuildMode] = useState('Full System'); // 'Full System' or 'Upgrade Components'
+  const [deviceType, setDeviceType] = useState('PC');
+  const [buildMode, setBuildMode] = useState('Full');
+
   const [selections, setSelections] = useState({
     CPU: componentOptions.CPU[1],
     GPU: componentOptions.GPU[1],
     RAM: componentOptions.RAM[1],
     Storage: componentOptions.Storage[1],
     PSU: componentOptions.PSU[1],
+    Motherboard: componentOptions.Motherboard[1],
+    Case: componentOptions.Case[1],
+    Cooling: componentOptions.Cooling[1],
+    LaptopBase: componentOptions.LaptopBase[1],
   });
   const [expanded, setExpanded] = useState('GPU');
 
-  const componentsTotal = Object.values(selections).reduce((s, c) => s + c.price, 0);
-  const baseCost = buildMode === 'Full System' ? baseSystemCosts[deviceType].price : 0;
-  const totalPrice = componentsTotal + baseCost;
-  const avgScore = Math.round(Object.values(selections).reduce((s, c) => s + c.score, 0) / 5);
+  let visibleCategories = [];
+  if (deviceType === 'PC') {
+    if (buildMode === 'Full') visibleCategories = ['CPU', 'GPU', 'RAM', 'Storage', 'PSU', 'Motherboard', 'Case', 'Cooling'];
+    else visibleCategories = ['CPU', 'GPU', 'RAM', 'Storage', 'PSU'];
+  } else {
+    if (buildMode === 'Full') visibleCategories = ['LaptopBase', 'RAM', 'Storage'];
+    else visibleCategories = ['RAM', 'Storage'];
+  }
+
+  const activeSelections = visibleCategories.map(cat => selections[cat]);
+  const totalPrice = activeSelections.reduce((s, c) => s + c.price, 0);
+  const avgScore = Math.round(activeSelections.reduce((s, c) => s + c.score, 0) / activeSelections.length);
 
   return (
     <section id="pc-builder" className="section-padding bg-dark-950 relative overflow-hidden">
@@ -131,38 +167,6 @@ export default function PCBuilder() {
             Architect your ideal workstation with transparent, real-time 
             pricing based on current Indian hardware data.
           </motion.p>
-
-          <div className="flex flex-wrap gap-4 mt-10">
-            {/* Device Type Toggle */}
-            <div className="glass p-1 rounded-2xl flex border border-white/5">
-              {['Desktop', 'Laptop'].map((type) => (
-                <button
-                  key={type}
-                  onClick={() => setDeviceType(type)}
-                  className={`px-6 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all ${
-                    deviceType === type ? 'bg-violet-500 text-white shadow-lg' : 'text-slate-400 hover:text-white'
-                  }`}
-                >
-                  {type}
-                </button>
-              ))}
-            </div>
-
-            {/* Build Mode Toggle */}
-            <div className="glass p-1 rounded-2xl flex border border-white/5">
-              {['Full System', 'Upgrade Parts'].map((mode) => (
-                <button
-                  key={mode}
-                  onClick={() => setBuildMode(mode)}
-                  className={`px-6 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all ${
-                    buildMode === mode ? 'bg-emerald-500 text-white shadow-lg' : 'text-slate-400 hover:text-white'
-                  }`}
-                >
-                  {mode}
-                </button>
-              ))}
-            </div>
-          </div>
         </div>
 
         <div className="grid lg:grid-cols-12 gap-10 items-start">
@@ -171,7 +175,19 @@ export default function PCBuilder() {
             initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
             className="lg:col-span-8 space-y-4"
           >
-            {Object.entries(componentOptions).map(([cat, opts]) => {
+            <div className="flex flex-wrap gap-4 mb-6">
+              <div className="flex bg-white/5 rounded-2xl p-1 border border-white/10 glass">
+                <button onClick={() => setDeviceType('PC')} className={`px-6 py-2 rounded-xl text-sm font-black uppercase tracking-widest transition-all ${deviceType === 'PC' ? 'bg-violet-500 text-white shadow-lg' : 'text-slate-400 hover:text-white'}`}>PC</button>
+                <button onClick={() => setDeviceType('Laptop')} className={`px-6 py-2 rounded-xl text-sm font-black uppercase tracking-widest transition-all ${deviceType === 'Laptop' ? 'bg-violet-500 text-white shadow-lg' : 'text-slate-400 hover:text-white'}`}>Laptop</button>
+              </div>
+              <div className="flex bg-white/5 rounded-2xl p-1 border border-white/10 glass">
+                <button onClick={() => setBuildMode('Full')} className={`px-6 py-2 rounded-xl text-sm font-black uppercase tracking-widest transition-all ${buildMode === 'Full' ? 'bg-cyan-500 text-white shadow-lg' : 'text-slate-400 hover:text-white'}`}>Full Custom Device</button>
+                <button onClick={() => setBuildMode('Upgrade')} className={`px-6 py-2 rounded-xl text-sm font-black uppercase tracking-widest transition-all ${buildMode === 'Upgrade' ? 'bg-cyan-500 text-white shadow-lg' : 'text-slate-400 hover:text-white'}`}>Upgrade Components</button>
+              </div>
+            </div>
+
+            {visibleCategories.map((cat) => {
+              const opts = componentOptions[cat];
               const isExpanded = expanded === cat;
               const glow = catGlow[cat];
               return (
@@ -278,7 +294,7 @@ export default function PCBuilder() {
                   <div className="flex justify-center gap-4 mt-6">
                     <div className="text-center">
                       <div className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">Components</div>
-                      <div className="text-sm font-black text-white">5 selected</div>
+                      <div className="text-sm font-black text-white">{activeSelections.length} selected</div>
                     </div>
                     <div className="w-px h-8 bg-white/10" />
                     <div className="text-center">
@@ -291,34 +307,18 @@ export default function PCBuilder() {
                 {/* Pricing Block */}
                 <div className="space-y-4 mb-10">
                   <div className="flex items-center justify-between">
-                    <span className="text-xs font-black text-slate-500 uppercase tracking-widest">Components Total</span>
-                    <span className="text-sm font-black text-white">₹{(componentsTotal).toLocaleString()}</span>
+                    <span className="text-xs font-black text-slate-500 uppercase tracking-widest">Base Estimate</span>
+                    <span className="text-sm font-black text-white">₹{(totalPrice).toLocaleString()}</span>
                   </div>
-                  
-                  {buildMode === 'Full System' && (
-                    <motion.div 
-                      initial={{ opacity: 0, height: 0 }}
-                      animate={{ opacity: 1, height: 'auto' }}
-                      className="flex items-center justify-between"
-                    >
-                      <span className="text-xs font-black text-slate-500 uppercase tracking-widest">
-                        {baseSystemCosts[deviceType].name}
-                      </span>
-                      <span className="text-sm font-black text-white">
-                        ₹{baseSystemCosts[deviceType].price.toLocaleString()}
-                      </span>
-                    </motion.div>
-                  )}
-
                   <div className="flex items-center justify-between">
                     <span className="text-xs font-black text-slate-500 uppercase tracking-widest">Assembly & Warranty</span>
                     <span className="text-sm font-black text-emerald-400">₹1,499 (FREE)</span>
                   </div>
                   <div className="pt-4 border-t border-white/10 flex items-center justify-between">
-                    <span className="text-sm font-black text-white uppercase tracking-[0.2em]">Total Estimate</span>
+                    <span className="text-sm font-black text-white uppercase tracking-[0.2em]">Total</span>
                     <motion.span
                       key={totalPrice}
-                      initial={{ scale: 1.2, color: '#10B981' }}
+                      initial={{ scale: 1.2, color: '#8B5CF6' }}
                       animate={{ scale: 1, color: '#ffffff' }}
                       className="text-3xl font-black tracking-tighter"
                     >
