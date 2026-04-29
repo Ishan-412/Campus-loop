@@ -12,9 +12,9 @@ const floatingItems = [
 ];
 
 const stats = [
-  { value: 'Up to 30%', label: 'Potential Savings', icon: <Zap size={16} />,     color: 'from-violet-500 to-purple-600' },
-  { value: '50+', label: 'Beta Builds',             icon: <Shield size={16} />,  color: 'from-blue-500 to-cyan-500' },
-  { value: 'Goal: Zero', label: 'Campus e-Waste',   icon: <Recycle size={16} />, color: 'from-emerald-500 to-teal-500' },
+  { value: 'Grade A', label: 'Certified Hardware',  icon: <Shield size={16} />,  color: 'from-blue-500 to-cyan-500' },
+  { value: 'Academic', label: 'Mapped Configs',      icon: <Zap size={16} />,     color: 'from-violet-500 to-purple-600' },
+  { value: 'Circular', label: 'Student Economy',    icon: <Recycle size={16} />, color: 'from-emerald-500 to-teal-500' },
 ];
 
 export default function Hero() {
