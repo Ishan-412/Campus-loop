@@ -1,15 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Brain, ChevronDown, Cpu, HardDrive, Zap, TrendingUp, Check, Sparkles, Binary, Rocket } from 'lucide-react';
-
-const branches = [
-  'Computer Science', 'Mechanical', 'Electrical', 'Civil',
-  'Biotechnology', 'Electronics', 'Chemical', 'Aerospace', 'Physics', 'Data Science',
-];
-
-const budgets = [
-  'Under ₹30,000', '₹30,000–50,000', '₹50,000–80,000', '₹80,000–1,20,000', '₹1,20,000+',
-];
+import { Brain, ChevronDown, Cpu, HardDrive, Zap, TrendingUp, Check, Sparkles, Binary, Rocket, Info } from 'lucide-react';
+import { branches, budgets, workloads, generateConfig } from '../utils/aiEngine';
 
 const softwareOptions = {
   'Computer Science': [
@@ -54,40 +46,7 @@ const softwareOptions = {
   ],
 };
 
-const buildResults = {
-  'Computer Science': {
-    cpu: 'AMD Ryzen 7 5800H', gpu: 'NVIDIA RTX 3060 8GB', ram: '16GB DDR5 4800MHz',
-    storage: '512GB NVMe Gen4 SSD', score: 87, grade: 'A',
-    upgrade: ['Year 2: RAM → 32GB DDR5', 'Year 3: GPU → RTX 4070', 'Year 4: Trade-in & Full Rebuild'],
-  },
-  'Mechanical': {
-    cpu: 'Intel Core i7-12700H', gpu: 'NVIDIA RTX A2000 6GB', ram: '32GB DDR4 3200MHz',
-    storage: '1TB NVMe SSD + 500GB HDD', score: 93, grade: 'A+',
-    upgrade: ['Year 2: Storage → 2TB NVMe', 'Year 3: RAM → 64GB ECC', 'Year 4: Workstation Rebuild'],
-  },
-  'Electrical': {
-    cpu: 'AMD Ryzen 5 5600X', gpu: 'NVIDIA GTX 1660 Super', ram: '16GB DDR4 3200MHz',
-    storage: '512GB NVMe SSD', score: 79, grade: 'B+',
-    upgrade: ['Year 2: RAM → 32GB', 'Year 3: GPU → RTX 3060', 'Year 4: CPU Platform Upgrade'],
-  },
-  'Civil': {
-    cpu: 'Intel Core i9-12900H', gpu: 'NVIDIA RTX 3070 8GB', ram: '32GB DDR5',
-    storage: '1TB NVMe Gen4 SSD', score: 91, grade: 'A',
-    upgrade: ['Year 2: RAM → 64GB', 'Year 3: GPU → RTX 4080', 'Year 4: Workstation Rebuild'],
-  },
-  'Biotechnology': {
-    cpu: 'AMD Ryzen 5 5600X', gpu: 'NVIDIA GTX 1650', ram: '16GB DDR4',
-    storage: '512GB SSD + 1TB HDD', score: 72, grade: 'B',
-    upgrade: ['Year 2: RAM → 32GB', 'Year 3: GPU → RTX 3050', 'Year 4: Full Upgrade'],
-  },
-  'Data Science': {
-    cpu: 'AMD Ryzen 9 5900X', gpu: 'NVIDIA RTX 3080 10GB', ram: '32GB DDR5 5200MHz',
-    storage: '1TB NVMe Gen4 SSD', score: 95, grade: 'A+',
-    upgrade: ['Year 2: RAM → 64GB', 'Year 3: GPU → RTX 4090', 'Year 4: AI Workstation Rebuild'],
-  },
-};
 
-const defaultBuild = buildResults['Computer Science'];
 
 function Select({ label, options, value, onChange }) {
   const [open, setOpen] = useState(false);
@@ -160,21 +119,37 @@ function ScoreHUD({ score, grade }) {
 export default function AIRecommender() {
   const [branch, setBranch] = useState('');
   const [budget, setBudget] = useState('');
+  const [workload, setWorkload] = useState('');
   const [software, setSoftware] = useState([]);
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [loadingText, setLoadingText] = useState('Processing Data...');
 
   const availableSoftware = branch ? (softwareOptions[branch] || []) : [];
 
   const toggleSoftware = (sw) =>
     setSoftware((prev) => prev.includes(sw) ? prev.filter((s) => s !== sw) : [...prev, sw]);
 
+  useEffect(() => {
+    let interval;
+    if (loading) {
+      const texts = ['Analyzing 10,000+ configurations...', 'Evaluating bottleneck metrics...', 'Synthesizing build...'];
+      let idx = 0;
+      setLoadingText(texts[0]);
+      interval = setInterval(() => {
+        idx = (idx + 1) % texts.length;
+        setLoadingText(texts[idx]);
+      }, 800);
+    }
+    return () => clearInterval(interval);
+  }, [loading]);
+
   const generate = () => {
     if (!branch || !budget) return;
     setLoading(true);
     setResult(null);
     setTimeout(() => {
-      setResult(buildResults[branch] || defaultBuild);
+      setResult(generateConfig(branch, budget, workload));
       setLoading(false);
     }, 2500);
   };
@@ -221,6 +196,8 @@ export default function AIRecommender() {
                 onChange={(v) => { setBranch(v); setSoftware([]); }} />
               
               <Select label="Investment Range" options={budgets} value={budget} onChange={setBudget} />
+
+              <Select label="Primary Workload (Optional)" options={workloads} value={workload} onChange={setWorkload} />
 
               <AnimatePresence>
                 {branch && (
@@ -269,7 +246,7 @@ export default function AIRecommender() {
                     <motion.div animate={{ rotate: 360 }} transition={{ duration: 2, repeat: Infinity, ease: "linear" }}>
                       <Brain size={20} className="text-cyan-300" />
                     </motion.div>
-                    Processing Data...
+                    {loadingText}
                   </>
                 ) : (
                   <>
@@ -305,7 +282,7 @@ export default function AIRecommender() {
 
                   <ScoreHUD score={result.score} grade={result.grade} />
 
-                  <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 gap-4 mb-10">
+                  <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
                     {[
                       { icon: <Cpu />, label: 'Processor', value: result.cpu },
                       { icon: <Zap />, label: 'Graphics', value: result.gpu },
@@ -332,6 +309,14 @@ export default function AIRecommender() {
                         <div className="text-sm font-black text-white leading-tight">{spec.value}</div>
                       </motion.div>
                     ))}
+                  </div>
+
+                  <div className="mb-8 p-5 rounded-[1.5rem] bg-indigo-500/10 border border-indigo-500/20 text-slate-300 text-sm leading-relaxed">
+                    <div className="flex items-center gap-2 mb-2">
+                      <Info size={16} className="text-indigo-400" />
+                      <span className="font-bold text-white">AI Reasoning</span>
+                    </div>
+                    {result.reason}
                   </div>
 
                   <div className="mt-auto p-6 rounded-3xl bg-violet-500/5 border border-violet-500/20">
