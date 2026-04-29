@@ -125,6 +125,9 @@ export default function PCBuilder() {
             CUSTOM <span className="text-gradient">PC BUILDER</span>
           </motion.h2>
           <motion.p
+            initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}
+            className="text-slate-400 text-xl font-medium leading-relaxed"
+          >
             Architect your ideal workstation with transparent, real-time 
             pricing based on current Indian hardware data.
           </motion.p>
