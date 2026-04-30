@@ -82,15 +82,15 @@ function PerfRing({ score }) {
   const r = 38; const circ = 2 * Math.PI * r;
   return (
     <div className="relative w-32 h-32 mx-auto">
-      <svg viewBox="0 0 100 100" className="w-full h-full -rotate-90 filter drop-shadow-[0_0_8px_rgba(124,58,237,0.5)]">
-        <circle cx="50" cy="50" r={r} fill="none" stroke="rgba(255,255,255,0.03)" strokeWidth="8" />
+      <svg viewBox="0 0 100 100" className="w-full h-full -rotate-90">
+        <circle cx="50" cy="50" r={r} fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="8" />
         <motion.circle
           cx="50" cy="50" r={r} fill="none"
           stroke="url(#pcGrad)" strokeWidth="8" strokeLinecap="round"
           strokeDasharray={circ}
           initial={{ strokeDashoffset: circ }}
           animate={{ strokeDashoffset: circ - (score / 100) * circ }}
-          transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 1.2, ease: 'easeOut' }}
           key={score}
         />
         <defs>
@@ -101,7 +101,8 @@ function PerfRing({ score }) {
         </defs>
       </svg>
       <div className="absolute inset-0 flex flex-col items-center justify-center">
-        <motion.span key={score} initial={{ scale: 0.5, opacity: 0 }} animate={{ scale: 1, opacity: 1 }}
+        <motion.span key={score} initial={{ scale: 0.8, opacity: 0 }} animate={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 0.3 }}
           className="text-3xl font-black text-white leading-none tracking-tighter">{score}</motion.span>
         <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest mt-1">Score</span>
       </div>
@@ -141,9 +142,9 @@ export default function PCBuilder() {
 
   return (
     <section id="pc-builder" className="section-padding bg-dark-950 relative overflow-hidden">
-      {/* Background elements */}
-      <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-violet-600/5 blur-[150px] rounded-full pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-cyan-600/5 blur-[150px] rounded-full pointer-events-none" />
+      {/* Background elements — kept small and low-opacity to avoid GPU pressure */}
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-violet-600/4 blur-[120px] rounded-full pointer-events-none" style={{ willChange: 'auto' }} />
+      <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-cyan-600/4 blur-[120px] rounded-full pointer-events-none" style={{ willChange: 'auto' }} />
 
       <div className="container-custom relative z-10">
         <div className="max-w-3xl mb-20">
@@ -226,26 +227,27 @@ export default function PCBuilder() {
                     </div>
                   </motion.button>
 
-                  {/* Expanded options */}
-                  <AnimatePresence>
+                  {/* Expanded options — use opacity+scaleY (composited) instead of height to avoid layout thrash */}
+                  <AnimatePresence initial={false}>
                     {isExpanded && (
                       <motion.div
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: 'auto', opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
+                        key="content"
+                        initial={{ opacity: 0, scaleY: 0.95 }}
+                        animate={{ opacity: 1, scaleY: 1 }}
+                        exit={{ opacity: 0, scaleY: 0.95 }}
+                        transition={{ duration: 0.18, ease: 'easeOut' }}
+                        style={{ transformOrigin: 'top' }}
                         className="overflow-hidden"
                       >
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-6 pt-0">
                           {opts.map((opt) => {
                             const chosen = selections[cat].name === opt.name;
                             return (
-                              <motion.button
+                              <button
                                 key={opt.name}
-                                whileHover={{ scale: 1.03, y: -5 }}
-                                whileTap={{ scale: 0.97 }}
                                 onClick={() => setSelections(prev => ({ ...prev, [cat]: opt }))}
-                                className={`p-5 rounded-2xl border transition-all duration-300 text-left relative group overflow-hidden ${
-                                  chosen ? 'bg-violet-500/10 border-violet-500/50' : 'bg-white/2 border-white/5 hover:border-white/20'
+                                className={`p-5 rounded-2xl border transition-colors duration-200 text-left relative overflow-hidden ${
+                                  chosen ? 'bg-violet-500/10 border-violet-500/50' : 'bg-white/2 border-white/5 hover:border-white/20 hover:bg-white/5'
                                 }`}
                               >
                                 {chosen && <div className="absolute top-0 right-0 p-2"><Zap size={14} className="text-violet-400" /></div>}
@@ -261,7 +263,7 @@ export default function PCBuilder() {
                                     </div>
                                   </div>
                                 </div>
-                              </motion.button>
+                              </button>
                             );
                           })}
                         </div>
@@ -279,8 +281,8 @@ export default function PCBuilder() {
             className="lg:col-span-4 sticky top-28"
           >
             <div className="glass-strong rounded-[2.5rem] p-8 border border-white/10 relative overflow-hidden group">
-              {/* Scanline effect */}
-              <div className="absolute inset-0 scan-line-container opacity-20 pointer-events-none" />
+              {/* Subtle top border glow instead of scan-line (no animation repaints) */}
+              <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-violet-500/40 to-transparent pointer-events-none" />
               
               <div className="relative z-10">
                 <div className="flex items-center justify-between mb-10">

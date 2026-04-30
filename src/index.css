@@ -62,6 +62,7 @@ h1, h2, h3, h4, .font-display {
   -webkit-backdrop-filter: blur(16px) saturate(180%);
   border: 1px solid rgba(255, 255, 255, 0.08);
   box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  will-change: transform;
 }
 .glass-strong {
   background: rgba(15, 23, 42, 0.7);
@@ -69,6 +70,7 @@ h1, h2, h3, h4, .font-display {
   -webkit-backdrop-filter: blur(32px) saturate(180%);
   border: 1px solid rgba(255, 255, 255, 0.12);
   box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+  will-change: transform;
 }
 
 /* ─── Glow helpers ───────────────────────────────── */
@@ -102,7 +104,7 @@ h1, h2, h3, h4, .font-display {
 }
 
 /* ─── Section spacing ────────────────────────────── */
-.section-padding { padding: 140px 0; }
+.section-padding { padding: 140px 0; contain: layout paint; }
 @media (max-width: 768px) {
   .section-padding { padding: 80px 0; }
 }
@@ -231,8 +233,8 @@ h1, h2, h3, h4, .font-display {
   animation: shimmer 2s infinite;
 }
 
-/* ─── Futuristic scan line ───────────────────────── */
-@keyframes scanLine {
+/* ─── Futuristic scan line (disabled — caused constant repaints) ─── */
+/* @keyframes scanLine {
   0%   { top: -10%; }
   100% { top: 110%; }
 }
@@ -245,7 +247,7 @@ h1, h2, h3, h4, .font-display {
   background: linear-gradient(90deg, transparent, rgba(139,92,246,0.6), transparent);
   animation: scanLine 5s linear infinite;
   pointer-events: none;
-}
+} */
 
 /* ─── Masking ────────────────────────────────────── */
 .mask-radial {
