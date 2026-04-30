@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Settings, Plus, Minus, Zap, ShoppingCart, Save, TrendingUp, BarChart3, Activity } from 'lucide-react';
+import { Settings, Plus, Minus, Zap, ShoppingCart, Save, BarChart3, Activity, CheckCircle, X, Cpu, Mail } from 'lucide-react';
 
 const componentOptions = {
   CPU: [
@@ -78,6 +78,107 @@ const catGlow = {
   LaptopBase: 'rgba(139,92,246,0.3)',
 };
 
+function RequestModal({ open, onClose, selections, visibleCategories, totalPrice, avgScore, deviceType, buildMode }) {
+  return (
+    <AnimatePresence>
+      {open && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.2 }}
+          className="fixed inset-0 z-50 flex items-center justify-center p-4"
+          style={{ backdropFilter: 'blur(12px)', background: 'rgba(2,6,23,0.75)' }}
+          onClick={onClose}
+        >
+          <motion.div
+            initial={{ scale: 0.9, opacity: 0, y: 20 }}
+            animate={{ scale: 1, opacity: 1, y: 0 }}
+            exit={{ scale: 0.92, opacity: 0, y: 10 }}
+            transition={{ duration: 0.25, ease: 'easeOut' }}
+            className="relative w-full max-w-lg rounded-[2rem] border border-white/10 overflow-hidden"
+            style={{ background: 'rgba(10,15,35,0.95)' }}
+            onClick={e => e.stopPropagation()}
+          >
+            {/* Top gradient bar */}
+            <div className="h-1 w-full" style={{ background: 'linear-gradient(90deg,#7C3AED,#06B6D4)' }} />
+
+            {/* Close */}
+            <button
+              onClick={onClose}
+              className="absolute top-4 right-4 w-8 h-8 rounded-full flex items-center justify-center text-slate-400 hover:text-white hover:bg-white/10 transition-colors"
+            >
+              <X size={16} />
+            </button>
+
+            <div className="p-8">
+              {/* Success icon */}
+              <motion.div
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ delay: 0.1, type: 'spring', stiffness: 300, damping: 20 }}
+                className="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-6"
+                style={{ background: 'linear-gradient(135deg,rgba(124,58,237,0.2),rgba(6,182,212,0.2))', border: '1px solid rgba(124,58,237,0.4)' }}
+              >
+                <CheckCircle size={30} className="text-violet-400" />
+              </motion.div>
+
+              <h3 className="text-2xl font-black text-white text-center tracking-tight mb-1">Build Requested!</h3>
+              <p className="text-slate-400 text-sm text-center mb-8">Our team will reach out within <span className="text-violet-300 font-bold">24 hours</span> with a detailed quote.</p>
+
+              {/* Build summary */}
+              <div className="rounded-2xl border border-white/8 overflow-hidden mb-6" style={{ background: 'rgba(255,255,255,0.03)' }}>
+                <div className="flex items-center justify-between px-5 py-3 border-b border-white/6">
+                  <span className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em]">{deviceType} · {buildMode === 'Full' ? 'Full Custom' : 'Upgrade'}</span>
+                  <span className="text-[10px] font-black text-violet-400 uppercase tracking-widest">Score {avgScore}/100</span>
+                </div>
+                <div className="divide-y divide-white/5">
+                  {visibleCategories.map((cat, i) => (
+                    <motion.div
+                      key={cat}
+                      initial={{ opacity: 0, x: -8 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.15 + i * 0.04, duration: 0.2 }}
+                      className="flex items-center justify-between px-5 py-3"
+                    >
+                      <div>
+                        <div className="text-[10px] font-black text-slate-600 uppercase tracking-widest">{cat}</div>
+                        <div className="text-sm font-bold text-white">{selections[cat].name}</div>
+                      </div>
+                      <span className="text-sm font-black text-slate-300">₹{selections[cat].price.toLocaleString()}</span>
+                    </motion.div>
+                  ))}
+                </div>
+                <div className="flex items-center justify-between px-5 py-4 border-t border-white/10" style={{ background: 'rgba(124,58,237,0.08)' }}>
+                  <span className="text-sm font-black text-white uppercase tracking-widest">Total</span>
+                  <span className="text-2xl font-black" style={{ background: 'linear-gradient(135deg,#A78BFA,#22D3EE)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>₹{totalPrice.toLocaleString()}</span>
+                </div>
+              </div>
+
+              {/* CTA */}
+              <div className="flex gap-3">
+                <button
+                  onClick={onClose}
+                  className="flex-1 py-3 rounded-xl border border-white/10 text-slate-400 text-sm font-black uppercase tracking-widest hover:border-white/20 hover:text-white transition-colors"
+                >
+                  Close
+                </button>
+                <button
+                  className="flex-1 py-3 rounded-xl text-white text-sm font-black uppercase tracking-widest flex items-center justify-center gap-2 transition-opacity hover:opacity-90"
+                  style={{ background: 'linear-gradient(135deg,#7C3AED,#06B6D4)' }}
+                >
+                  <Mail size={14} />
+                  Get Notified
+                </button>
+              </div>
+            </div>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+}
+
 function PerfRing({ score }) {
   const r = 38; const circ = 2 * Math.PI * r;
   return (
@@ -113,6 +214,7 @@ function PerfRing({ score }) {
 export default function PCBuilder() {
   const [deviceType, setDeviceType] = useState('PC');
   const [buildMode, setBuildMode] = useState('Full');
+  const [modalOpen, setModalOpen] = useState(false);
 
   const [selections, setSelections] = useState({
     CPU: componentOptions.CPU[1],
@@ -141,6 +243,17 @@ export default function PCBuilder() {
   const avgScore = Math.round(activeSelections.reduce((s, c) => s + c.score, 0) / activeSelections.length);
 
   return (
+    <>
+    <RequestModal
+      open={modalOpen}
+      onClose={() => setModalOpen(false)}
+      selections={selections}
+      visibleCategories={visibleCategories}
+      totalPrice={totalPrice}
+      avgScore={avgScore}
+      deviceType={deviceType}
+      buildMode={buildMode}
+    />
     <section id="pc-builder" className="section-padding bg-dark-950 relative overflow-hidden">
       {/* Background elements — kept small and low-opacity to avoid GPU pressure */}
       <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-violet-600/4 blur-[120px] rounded-full pointer-events-none" style={{ willChange: 'auto' }} />
@@ -334,6 +447,7 @@ export default function PCBuilder() {
                   <motion.button
                     whileHover={{ scale: 1.03 }}
                     whileTap={{ scale: 0.97 }}
+                    onClick={() => setModalOpen(true)}
                     className="w-full btn-primary flex items-center justify-center gap-3 py-5 rounded-[1.25rem] font-black uppercase tracking-[0.1em]"
                   >
                     <ShoppingCart size={18} />
@@ -360,5 +474,6 @@ export default function PCBuilder() {
         </div>
       </div>
     </section>
+    </>
   );
 }
